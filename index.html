@@ -22,19 +22,23 @@
             --text-secondary: #8f98a3;
             --border: #2b2b2b;
             
-            /* Responsive units */
-            --header-height: clamp(60px, 8vh, 80px);
+            /* Responsive units - Kuboreshwa kwa mobile */
+            --header-height: clamp(50px, 7vh, 70px);
             --nav-height: clamp(50px, 7vh, 60px);
             --font-base: clamp(14px, 1vw, 16px);
+            --font-medium: clamp(16px, 1.2vw, 18px);
             --font-large: clamp(18px, 2vw, 24px);
-            --font-xlarge: clamp(24px, 3vw, 32px);
-            --spacing-xs: clamp(8px, 1vw, 10px);
-            --spacing-sm: clamp(12px, 1.5vw, 16px);
-            --spacing-md: clamp(16px, 2vw, 24px);
-            --spacing-lg: clamp(24px, 3vw, 32px);
-            --spacing-xl: clamp(32px, 4vw, 48px);
-            --border-radius: clamp(8px, 1vw, 12px);
-            --border-radius-lg: clamp(12px, 2vw, 20px);
+            --font-xlarge: clamp(22px, 2.5vw, 32px);
+            --font-xxlarge: clamp(24px, 3vw, 36px);
+            --spacing-xs: clamp(6px, 0.8vw, 8px);
+            --spacing-sm: clamp(8px, 1vw, 12px);
+            --spacing-md: clamp(12px, 1.5vw, 16px);
+            --spacing-lg: clamp(16px, 2vw, 24px);
+            --spacing-xl: clamp(20px, 2.5vw, 32px);
+            --spacing-xxl: clamp(24px, 3vw, 48px);
+            --border-radius: clamp(6px, 0.8vw, 10px);
+            --border-radius-lg: clamp(10px, 1.5vw, 16px);
+            --border-radius-xl: clamp(12px, 2vw, 20px);
         }
 
         * {
@@ -54,19 +58,18 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             background: var(--dark);
             color: var(--text);
-            line-height: 1.6;
+            line-height: 1.5;
             min-height: 100vh;
             padding-bottom: var(--nav-height);
             position: relative;
         }
 
-        /* Container System */
+        /* Container System - Kuboreshwa kwa spacing */
         .container {
             width: 100%;
             max-width: 1920px;
             margin: 0 auto;
             padding: var(--spacing-md);
-            transition: padding 0.3s ease;
         }
 
         @media (min-width: 768px) {
@@ -81,14 +84,14 @@
             }
         }
 
-        /* Header - Optimized for Mobile & Desktop */
+        /* Header - Kuboreshwa kwa mobile */
         .header {
             background: linear-gradient(135deg, var(--dark-light), var(--darker));
-            border-radius: var(--border-radius-lg);
+            border-radius: var(--border-radius-xl);
             padding: var(--spacing-lg);
             margin-bottom: var(--spacing-lg);
             border: 1px solid var(--border);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
             display: flex;
             flex-direction: column;
             gap: var(--spacing-md);
@@ -101,7 +104,7 @@
                 flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
-                padding: var(--spacing-lg);
+                padding: var(--spacing-xl);
             }
         }
 
@@ -117,6 +120,7 @@
 
         .header-left {
             flex: 1;
+            min-width: 0; /* Allows text truncation */
         }
 
         .header-left h1 {
@@ -127,11 +131,14 @@
             -webkit-text-fill-color: transparent;
             margin-bottom: var(--spacing-xs);
             line-height: 1.2;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .header-left p {
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            font-size: clamp(12px, 0.9vw, 14px);
+            line-height: 1.4;
         }
 
         .connection-status {
@@ -145,6 +152,7 @@
             border: 1px solid rgba(0, 168, 132, 0.3);
             backdrop-filter: blur(10px);
             flex-wrap: wrap;
+            flex-shrink: 0;
         }
 
         @media (min-width: 768px) {
@@ -154,12 +162,13 @@
         }
 
         .status-dot {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             background: var(--secondary);
             border-radius: 50%;
             animation: pulse 2s infinite;
-            box-shadow: 0 0 10px var(--secondary);
+            box-shadow: 0 0 8px var(--secondary);
+            flex-shrink: 0;
         }
 
         @keyframes pulse {
@@ -168,13 +177,20 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
-        /* Stats Grid - Fully Responsive */
+        /* Stats Grid - Improved for mobile */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
             gap: var(--spacing-md);
             margin-bottom: var(--spacing-xl);
             width: 100%;
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-sm);
+            }
         }
 
         /* Stat Card - Touch Optimized */
@@ -187,10 +203,18 @@
             position: relative;
             overflow: hidden;
             cursor: pointer;
-            min-height: 180px;
+            min-height: 140px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            gap: var(--spacing-sm);
+        }
+
+        @media (max-width: 480px) {
+            .stat-card {
+                padding: var(--spacing-md);
+                min-height: 120px;
+            }
         }
 
         .stat-card:active {
@@ -199,8 +223,8 @@
 
         @media (hover: hover) and (pointer: fine) {
             .stat-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+                transform: translateY(-3px);
+                box-shadow: 0 15px 30px rgba(0,0,0,0.4);
                 border-color: var(--primary);
             }
         }
@@ -225,43 +249,73 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: var(--spacing-md);
+            margin-bottom: 0;
         }
 
         .stat-title {
             color: var(--text-secondary);
-            font-size: 0.85rem;
+            font-size: clamp(11px, 0.8vw, 13px);
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            flex: 1;
+            min-width: 0;
         }
 
         .stat-icon {
-            width: clamp(50px, 8vw, 60px);
-            height: clamp(50px, 8vw, 60px);
+            width: clamp(40px, 6vw, 50px);
+            height: clamp(40px, 6vw, 50px);
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: var(--border-radius);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: clamp(20px, 3vw, 26px);
+            font-size: clamp(18px, 2.5vw, 22px);
             color: white;
-            box-shadow: 0 10px 20px rgba(0,136,204,0.3);
+            box-shadow: 0 8px 16px rgba(0,136,204,0.3);
             flex-shrink: 0;
+            margin-left: var(--spacing-sm);
+        }
+
+        @media (max-width: 480px) {
+            .stat-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
         }
 
         .stat-value {
-            font-size: clamp(32px, 5vw, 48px);
+            font-size: clamp(28px, 4vw, 40px);
             font-weight: 800;
-            margin: var(--spacing-sm) 0;
             color: var(--text);
             line-height: 1;
+            margin: var(--spacing-xs) 0;
         }
 
-        .stat-subtitle {
+        .stats-detail {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
             color: var(--text-secondary);
-            font-size: 0.85rem;
-            margin-top: var(--spacing-sm);
+            font-size: clamp(11px, 0.8vw, 13px);
+            flex-wrap: wrap;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: var(--spacing-xs);
+            width: 100%;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+            transition: width 1s ease;
         }
 
         /* Content Grid - Adaptive Layout */
@@ -286,6 +340,13 @@
             border: 1px solid var(--border);
             box-shadow: 0 5px 20px rgba(0,0,0,0.2);
             width: 100%;
+            overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: var(--spacing-md);
+            }
         }
 
         .section-header {
@@ -302,6 +363,7 @@
                 flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
+                flex-wrap: wrap;
             }
         }
 
@@ -317,7 +379,7 @@
 
         .section-title i {
             color: var(--primary);
-            font-size: 1.2em;
+            font-size: 1.1em;
         }
 
         /* Tables - Scrollable on Mobile */
@@ -327,17 +389,9 @@
             border-radius: var(--border-radius);
             background: rgba(0,0,0,0.2);
             border: 1px solid var(--border);
-            margin: 0 calc(var(--spacing-md) * -1);
-            padding: 0 var(--spacing-md);
-            width: calc(100% + var(--spacing-md) * 2);
-        }
-
-        @media (min-width: 768px) {
-            .table-container {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-            }
+            margin: 0;
+            width: 100%;
+            position: relative;
         }
 
         table {
@@ -348,7 +402,7 @@
 
         @media (max-width: 767px) {
             table {
-                min-width: 800px;
+                min-width: 700px;
             }
         }
 
@@ -363,11 +417,17 @@
             padding: var(--spacing-md);
             color: var(--text-secondary);
             font-weight: 600;
-            font-size: 0.8rem;
+            font-size: clamp(11px, 0.8vw, 13px);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             border-bottom: 2px solid var(--border);
             white-space: nowrap;
+        }
+
+        @media (max-width: 768px) {
+            th, td {
+                padding: var(--spacing-sm);
+            }
         }
 
         td {
@@ -390,15 +450,15 @@
             border-radius: var(--border-radius);
             border: none;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: clamp(12px, 0.9vw, 14px);
             font-weight: 600;
             display: inline-flex;
             align-items: center;
             gap: 6px;
             transition: all 0.2s;
             touch-action: manipulation;
-            min-height: 44px;
-            min-width: 44px;
+            min-height: 40px;
+            min-width: 40px;
         }
 
         .action-btn:active {
@@ -419,14 +479,15 @@
 
         /* Badges */
         .badge {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: clamp(11px, 0.8vw, 13px);
             font-weight: 600;
             display: inline-flex;
             align-items: center;
             gap: 4px;
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .badge-success {
@@ -465,6 +526,7 @@
             .controls {
                 flex-direction: row;
                 align-items: center;
+                flex-wrap: wrap;
             }
         }
 
@@ -475,16 +537,23 @@
             border-radius: var(--border-radius);
             padding: var(--spacing-md);
             color: var(--text);
-            font-size: 1rem;
+            font-size: clamp(14px, 1vw, 16px);
             transition: all 0.3s;
             min-height: 44px;
             width: 100%;
         }
 
+        @media (max-width: 480px) {
+            .search-box {
+                min-height: 40px;
+                padding: var(--spacing-sm) var(--spacing-md);
+            }
+        }
+
         .search-box:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0,136,204,0.1);
+            box-shadow: 0 0 0 2px rgba(0,136,204,0.1);
         }
 
         .filter-select {
@@ -493,8 +562,7 @@
             border-radius: var(--border-radius);
             padding: var(--spacing-md);
             color: var(--text);
-            font-size: 1rem;
-            min-width: 160px;
+            font-size: clamp(14px, 1vw, 16px);
             cursor: pointer;
             min-height: 44px;
             width: 100%;
@@ -503,6 +571,14 @@
         @media (min-width: 480px) {
             .filter-select {
                 width: auto;
+                min-width: 160px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .filter-select {
+                min-height: 40px;
+                padding: var(--spacing-sm) var(--spacing-md);
             }
         }
 
@@ -511,12 +587,12 @@
             display: flex;
             align-items: center;
             gap: var(--spacing-sm);
-            min-width: 200px;
+            min-width: 180px;
         }
 
         .student-avatar {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             display: flex;
@@ -524,51 +600,47 @@
             justify-content: center;
             color: white;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: clamp(12px, 0.9vw, 14px);
             flex-shrink: 0;
         }
 
         @media (min-width: 768px) {
             .student-avatar {
-                width: 50px;
-                height: 50px;
-                font-size: 1rem;
+                width: 44px;
+                height: 44px;
+                font-size: clamp(14px, 1vw, 16px);
             }
         }
 
+        .student-info {
+            min-width: 0; /* Allows text truncation */
+        }
+
         .student-info h4 {
-            font-size: 1rem;
+            font-size: clamp(14px, 1.1vw, 16px);
             font-weight: 600;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
             word-break: break-word;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
         }
 
         .student-info p {
-            font-size: 0.8rem;
+            font-size: clamp(11px, 0.8vw, 13px);
             color: var(--text-secondary);
-        }
-
-        /* Progress Bars */
-        .progress-bar {
-            height: 6px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 3px;
             overflow: hidden;
-            margin-top: 8px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 3px;
-            transition: width 1s ease;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         /* Performance Chart */
         .performance-chart {
             height: 200px;
-            margin-top: var(--spacing-lg);
             width: 100%;
+            position: relative;
         }
 
         /* Notification - Mobile Optimized */
@@ -701,7 +773,7 @@
             margin-bottom: 6px;
             color: var(--text-secondary);
             font-weight: 500;
-            font-size: 0.9rem;
+            font-size: clamp(13px, 0.9vw, 15px);
         }
 
         .form-input {
@@ -711,15 +783,22 @@
             border: 1px solid var(--border);
             border-radius: var(--border-radius);
             color: var(--text);
-            font-size: 1rem;
+            font-size: clamp(14px, 1vw, 16px);
             transition: all 0.3s;
             min-height: 44px;
+        }
+
+        @media (max-width: 480px) {
+            .form-input {
+                min-height: 40px;
+                padding: var(--spacing-sm) var(--spacing-md);
+            }
         }
 
         .form-input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0,136,204,0.1);
+            box-shadow: 0 0 0 2px rgba(0,136,204,0.1);
         }
 
         .modal-actions {
@@ -743,7 +822,7 @@
             padding: var(--spacing-md) var(--spacing-lg);
             border-radius: var(--border-radius);
             cursor: pointer;
-            font-size: 1rem;
+            font-size: clamp(14px, 1vw, 16px);
             font-weight: 600;
             display: inline-flex;
             align-items: center;
@@ -763,6 +842,13 @@
             }
         }
 
+        @media (max-width: 480px) {
+            .btn {
+                min-height: 40px;
+                padding: var(--spacing-sm) var(--spacing-md);
+            }
+        }
+
         .btn:active {
             transform: scale(0.95);
         }
@@ -772,36 +858,9 @@
             border: 1px solid var(--border);
         }
 
-        /* Main Action Buttons */
+        /* Main Action Buttons - IMEREMOVED */
         .main-actions {
-            position: fixed;
-            bottom: calc(var(--nav-height) + var(--spacing-md));
-            right: var(--spacing-md);
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-sm);
-            z-index: 1000;
-        }
-
-        .action-fab {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            transition: all 0.3s;
-            touch-action: manipulation;
-        }
-
-        .action-fab:active {
-            transform: scale(0.9);
+            display: none;
         }
 
         /* Bottom Navigation - Mobile Only */
@@ -815,7 +874,7 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            padding: var(--spacing-sm);
+            padding: var(--spacing-xs) var(--spacing-sm);
             z-index: 1000;
             height: var(--nav-height);
             backdrop-filter: blur(10px);
@@ -834,13 +893,14 @@
             justify-content: center;
             text-decoration: none;
             color: var(--text-secondary);
-            font-size: 0.7rem;
-            gap: 4px;
+            font-size: clamp(10px, 0.7vw, 12px);
+            gap: 2px;
             padding: var(--spacing-xs);
             border-radius: var(--border-radius);
             transition: all 0.2s;
-            min-width: 60px;
+            min-width: 56px;
             min-height: 44px;
+            flex: 1;
         }
 
         .nav-item.active {
@@ -853,7 +913,7 @@
         }
 
         .nav-item i {
-            font-size: 1.2rem;
+            font-size: clamp(18px, 1.5vw, 20px);
         }
 
         /* Loading States */
@@ -917,18 +977,9 @@
 
         /* Responsive Typography */
         .timestamp {
-            font-size: 0.8rem;
+            font-size: clamp(11px, 0.8vw, 13px);
             color: var(--text-secondary);
             font-family: 'Courier New', monospace;
-        }
-
-        .stats-detail {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-top: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
         /* Orientation Warning */
@@ -990,36 +1041,29 @@
             }
         }
 
-        /* Dark Mode Toggle */
-        .theme-toggle {
-            position: fixed;
-            top: var(--spacing-md);
-            left: var(--spacing-md);
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid var(--border);
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 100;
-            transition: all 0.3s;
+        /* Timestamp styling */
+        #dataTimestamp {
+            font-family: 'Courier New', monospace;
+            font-size: clamp(11px, 0.8vw, 13px);
+            color: var(--secondary);
+            font-weight: 600;
         }
 
-        .theme-toggle:active {
-            transform: scale(0.9);
+        /* Compact table styling for mobile */
+        @media (max-width: 767px) {
+            .compact-view td:nth-child(5),
+            .compact-view td:nth-child(6) {
+                display: none;
+            }
+            
+            .compact-view th:nth-child(5),
+            .compact-view th:nth-child(6) {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Theme Toggle -->
-    <button class="theme-toggle" onclick="toggleTheme()">
-        <i class="fas fa-moon"></i>
-    </button>
-
     <!-- Pull to Refresh Indicator -->
     <div class="pull-to-refresh" id="pullToRefresh">
         <i class="fas fa-sync-alt"></i>
@@ -1029,13 +1073,13 @@
         <!-- Header -->
         <div class="header">
             <div class="header-left">
-                <h1><i class="fas fa-graduation-cap"></i> Charles Academy</h1>
-                <p>Live Dashboard • Real-time Analytics • <span id="dataTimestamp">Loading...</span></p>
+                <h1><i class="fas fa-graduation-cap"></i> Charles Academy Dashboard</h1>
+                <p>Live Analytics • Real-time Monitoring • <span id="dataTimestamp">Loading...</span></p>
             </div>
             <div class="connection-status">
                 <span class="status-dot"></span>
-                <span>Database Connected</span>
-                <button class="btn-secondary" onclick="loadAllData()" style="padding: 8px 16px; min-height: 36px;">
+                <span>Connected</span>
+                <button class="btn-secondary" onclick="loadAllData()" style="padding: 6px 12px; min-height: 32px; font-size: 12px;">
                     <i class="fas fa-sync-alt"></i>
                     <span class="mobile-hidden">Refresh</span>
                 </button>
@@ -1057,7 +1101,7 @@
                 <div class="section-header">
                     <div class="section-title">
                         <i class="fas fa-users"></i>
-                        Students
+                        Students Management
                         <span class="badge badge-info" id="studentsCount">0</span>
                     </div>
                     <div class="controls">
@@ -1095,7 +1139,7 @@
                 <div class="section-header">
                     <div class="section-title">
                         <i class="fas fa-file-alt"></i>
-                        Exams
+                        Exam Results
                         <span class="badge badge-info" id="examsCount">0</span>
                     </div>
                     <div class="controls">
@@ -1134,9 +1178,9 @@
             <div class="section-header">
                 <div class="section-title">
                     <i class="fas fa-chart-line"></i>
-                    Analytics
+                    Performance Analytics
                 </div>
-                <button class="btn-secondary" onclick="exportData()" style="min-height: 36px;">
+                <button class="btn-secondary" onclick="exportData()" style="min-height: 36px; padding: 8px 16px;">
                     <i class="fas fa-download"></i>
                     <span class="mobile-hidden">Export</span>
                 </button>
@@ -1170,47 +1214,7 @@
         </div>
     </div>
 
-    <!-- Add Student Modal -->
-    <div class="modal" id="addStudentModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Add New Student</h3>
-                <button class="modal-close" onclick="closeModal('addStudentModal')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form id="studentForm" onsubmit="return addStudent(event)">
-                <div class="form-group">
-                    <label class="form-label">Full Name *</label>
-                    <input type="text" class="form-input" id="studentName" required autocomplete="name">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Phone Number *</label>
-                    <input type="tel" class="form-input" id="studentPhone" required autocomplete="tel">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Registration Number</label>
-                    <input type="text" class="form-input" id="studentRegNumber" placeholder="Auto-generate if empty" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Language *</label>
-                    <select class="form-input" id="studentLanguage" required>
-                        <option value="en">English</option>
-                        <option value="fr">French</option>
-                        <option value="sw">Swahili</option>
-                    </select>
-                </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-secondary" onclick="closeModal('addStudentModal')">Cancel</button>
-                    <button type="submit" class="btn">
-                        <i class="fas fa-save"></i> Save Student
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Edit Student Modal -->
+    <!-- Edit Student Modal ONLY - Add Student Modal removed -->
     <div class="modal" id="editStudentModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1254,16 +1258,6 @@
         </div>
     </div>
 
-    <!-- Main Action Buttons -->
-    <div class="main-actions">
-        <button class="action-fab" onclick="showAddStudentModal()">
-            <i class="fas fa-user-plus"></i>
-        </button>
-        <button class="action-fab" onclick="generateReport()" style="background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));">
-            <i class="fas fa-file-pdf"></i>
-        </button>
-    </div>
-
     <!-- Bottom Navigation - Mobile Only -->
     <nav class="bottom-nav">
         <a href="#" class="nav-item active" onclick="scrollToTop()">
@@ -1278,13 +1272,13 @@
             <i class="fas fa-file-alt"></i>
             <span>Exams</span>
         </a>
-        <a href="#" class="nav-item" onclick="showAddStudentModal()">
-            <i class="fas fa-plus"></i>
-            <span>Add</span>
-        </a>
         <a href="#" class="nav-item" onclick="loadAllData()">
             <i class="fas fa-sync-alt"></i>
             <span>Refresh</span>
+        </a>
+        <a href="#" class="nav-item" onclick="exportData()">
+            <i class="fas fa-download"></i>
+            <span>Export</span>
         </a>
     </nav>
 
@@ -1309,7 +1303,6 @@
         let allExamResults = [];
         let performanceChart = null;
         let currentStudentId = null;
-        let isDarkMode = true;
         let touchStartY = 0;
         let isRefreshing = false;
 
@@ -1451,12 +1444,6 @@
                 if (e.key === 'Escape') {
                     closeAllModals();
                 }
-                
-                // Ctrl/Cmd + N to add new student
-                if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
-                    e.preventDefault();
-                    showAddStudentModal();
-                }
             });
         }
 
@@ -1524,26 +1511,6 @@
             }
         }
 
-        // Toggle theme
-        function toggleTheme() {
-            isDarkMode = !isDarkMode;
-            const themeToggle = document.querySelector('.theme-toggle i');
-            
-            if (isDarkMode) {
-                document.documentElement.style.setProperty('--dark', '#0e1621');
-                document.documentElement.style.setProperty('--dark-light', '#17212b');
-                document.documentElement.style.setProperty('--text', '#ffffff');
-                themeToggle.className = 'fas fa-moon';
-            } else {
-                document.documentElement.style.setProperty('--dark', '#f5f5f5');
-                document.documentElement.style.setProperty('--dark-light', '#ffffff');
-                document.documentElement.style.setProperty('--text', '#333333');
-                themeToggle.className = 'fas fa-sun';
-            }
-            
-            showNotification(`Switched to ${isDarkMode ? 'Dark' : 'Light'} mode`, 'info');
-        }
-
         // Scroll to top
         function scrollToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1556,81 +1523,6 @@
             });
         }
 
-        // Supabase Configuration - CORRECT FOR YOUR DATABASE
-        const SUPABASE_CONFIG = {
-            url: 'https://naycamtrebtnntoelucs.supabase.co',
-            anonKey: 'sb_publishable_jgQueATWfvg8CdvtLtDTKQ_25vDlahs'
-        };
-
-        // Global state
-        let allStudents = [];
-        let allExamResults = [];
-        let performanceChart = null;
-        let currentStudentId = null;
-
-        // Initialize dashboard
-        document.addEventListener('DOMContentLoaded', async () => {
-            console.log('🚀 Initializing Charles Academy Dashboard...');
-            console.log('📊 Supabase URL:', SUPABASE_CONFIG.url);
-            
-            // Setup event listeners
-            setupEventListeners();
-            
-            // Test connection first
-            await testConnection();
-            
-            // Load all data
-            await loadAllData();
-            
-            // Auto-refresh every 30 seconds
-            setInterval(() => {
-                if (document.visibilityState === 'visible') {
-                    loadStats();
-                    console.log('🔄 Auto-refreshing stats...');
-                }
-            }, 30000);
-        });
-
-        // Setup event listeners
-        function setupEventListeners() {
-            // Student search
-            const studentSearch = document.getElementById('studentSearch');
-            studentSearch.addEventListener('input', debounce(() => filterStudents(), 300));
-
-            // Exam search
-            const examSearch = document.getElementById('examSearch');
-            examSearch.addEventListener('input', debounce(() => filterExams(), 300));
-        }
-
-        // Test connection
-        async function testConnection() {
-            console.log('🔌 Testing database connection...');
-            
-            try {
-                const testUrl = `${SUPABASE_CONFIG.url}/rest/v1/students?select=count&limit=1`;
-                
-                const response = await fetch(testUrl, {
-                    headers: {
-                        'apikey': SUPABASE_CONFIG.anonKey,
-                        'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (response.ok) {
-                    console.log('✅ Connection successful!');
-                    showNotification('Connected to database successfully!', 'success');
-                    return true;
-                } else {
-                    throw new Error('Connection failed');
-                }
-            } catch (error) {
-                console.error('❌ Connection failed:', error);
-                showNotification('Connection failed. Check console for details.', 'error');
-                return false;
-            }
-        }
-
         // Debounce function for search
         function debounce(func, wait) {
             let timeout;
@@ -1678,7 +1570,7 @@
                 minute: '2-digit',
                 second: '2-digit'
             });
-            document.getElementById('dataTimestamp').textContent = `Last updated: ${formatted}`;
+            document.getElementById('dataTimestamp').textContent = formatted;
         }
 
         // Load statistics
@@ -1760,7 +1652,7 @@
                         <div class="stat-value">${totalStudents}</div>
                         <div class="stats-detail">
                             <i class="fas fa-user-plus"></i>
-                            <span>${todayStudents} registered today</span>
+                            <span>${todayStudents} today</span>
                         </div>
                         <div class="progress-bar">
                             <div class="progress-fill" style="width: ${Math.min(100, (totalStudents / 100) * 100)}%"></div>
@@ -1777,7 +1669,7 @@
                         <div class="stat-value">${totalExams}</div>
                         <div class="stats-detail">
                             <i class="fas fa-calendar-day"></i>
-                            <span>${todayExams} exams today</span>
+                            <span>${todayExams} today</span>
                         </div>
                         <div class="progress-bar">
                             <div class="progress-fill" style="width: ${Math.min(100, (totalExams / 500) * 100)}%"></div>
@@ -1794,7 +1686,7 @@
                         <div class="stat-value">${averageScore}%</div>
                         <div class="stats-detail">
                             <i class="fas fa-${averageScore >= 70 ? 'arrow-up' : 'arrow-down'}"></i>
-                            <span>${averageScore >= 70 ? 'Good Performance' : 'Needs Improvement'}</span>
+                            <span>${averageScore >= 70 ? 'Good' : 'Needs Work'}</span>
                         </div>
                         <div class="progress-bar">
                             <div class="progress-fill" style="width: ${averageScore}%"></div>
@@ -1811,7 +1703,7 @@
                         <div class="stat-value">${passRate}%</div>
                         <div class="stats-detail">
                             <i class="fas fa-graduation-cap"></i>
-                            <span>Students passing exams</span>
+                            <span>Passing rate</span>
                         </div>
                         <div class="progress-bar">
                             <div class="progress-fill" style="width: ${passRate}%"></div>
@@ -1887,13 +1779,10 @@
                 if (allStudents.length === 0) {
                     document.getElementById('studentsTable').innerHTML = `
                         <tr>
-                            <td colspan="6" style="text-align: center; padding: 60px;">
+                            <td colspan="6" style="text-align: center; padding: 40px;">
                                 <div style="color: var(--text-secondary);">
-                                    <i class="fas fa-users-slash" style="font-size: 48px; margin-bottom: 20px; opacity: 0.3; display: block;"></i>
-                                    <p>No students found in database</p>
-                                    <button class="btn" onclick="showAddStudentModal()" style="margin-top: 20px;">
-                                        <i class="fas fa-user-plus"></i> Add First Student
-                                    </button>
+                                    <i class="fas fa-users-slash" style="font-size: 36px; margin-bottom: 16px; opacity: 0.3; display: block;"></i>
+                                    <p>No students found</p>
                                 </div>
                             </td>
                         </tr>
@@ -1908,10 +1797,10 @@
                 console.error('Error loading students:', error);
                 document.getElementById('studentsTable').innerHTML = `
                     <tr>
-                        <td colspan="6" style="text-align: center; padding: 60px; color: var(--danger);">
-                            <i class="fas fa-exclamation-circle" style="font-size: 48px; margin-bottom: 20px; display: block;"></i>
-                            <p>Failed to load students: ${error.message}</p>
-                            <button class="btn" onclick="loadStudents()" style="margin-top: 20px;">
+                        <td colspan="6" style="text-align: center; padding: 40px; color: var(--danger);">
+                            <i class="fas fa-exclamation-circle" style="font-size: 36px; margin-bottom: 16px; display: block;"></i>
+                            <p>Failed to load students</p>
+                            <button class="btn" onclick="loadStudents()" style="margin-top: 16px; padding: 8px 16px;">
                                 <i class="fas fa-redo"></i> Retry
                             </button>
                         </td>
@@ -1948,9 +1837,9 @@
                 if (allExamResults.length === 0) {
                     document.getElementById('examsTable').innerHTML = `
                         <tr>
-                            <td colspan="6" style="text-align: center; padding: 60px;">
+                            <td colspan="6" style="text-align: center; padding: 40px;">
                                 <div style="color: var(--text-secondary);">
-                                    <i class="fas fa-file-alt" style="font-size: 48px; margin-bottom: 20px; opacity: 0.3; display: block;"></i>
+                                    <i class="fas fa-file-alt" style="font-size: 36px; margin-bottom: 16px; opacity: 0.3; display: block;"></i>
                                     <p>No exam results found</p>
                                 </div>
                             </td>
@@ -1966,10 +1855,10 @@
                 console.error('Error loading exams:', error);
                 document.getElementById('examsTable').innerHTML = `
                     <tr>
-                        <td colspan="6" style="text-align: center; padding: 60px; color: var(--danger);">
-                            <i class="fas fa-exclamation-circle" style="font-size: 48px; margin-bottom: 20px; display: block;"></i>
-                            <p>Failed to load exam results: ${error.message}</p>
-                            <button class="btn" onclick="loadExams()" style="margin-top: 20px;">
+                        <td colspan="6" style="text-align: center; padding: 40px; color: var(--danger);">
+                            <i class="fas fa-exclamation-circle" style="font-size: 36px; margin-bottom: 16px; display: block;"></i>
+                            <p>Failed to load exams</p>
+                            <button class="btn" onclick="loadExams()" style="margin-top: 16px; padding: 8px 16px;">
                                 <i class="fas fa-redo"></i> Retry
                             </button>
                         </td>
@@ -2001,9 +1890,9 @@
                 if (!results || results.length === 0) {
                     document.getElementById('analyticsTable').innerHTML = `
                         <tr>
-                            <td colspan="7" style="text-align: center; padding: 60px; color: var(--text-secondary);">
-                                <i class="fas fa-chart-bar" style="font-size: 48px; margin-bottom: 20px; opacity: 0.3; display: block;"></i>
-                                <p>No analytics data available</p>
+                            <td colspan="5" style="text-align: center; padding: 40px; color: var(--text-secondary);">
+                                <i class="fas fa-chart-bar" style="font-size: 36px; margin-bottom: 16px; opacity: 0.3; display: block;"></i>
+                                <p>No analytics data</p>
                             </td>
                         </tr>
                     `;
@@ -2059,9 +1948,9 @@
                 console.error('Error loading analytics:', error);
                 document.getElementById('analyticsTable').innerHTML = `
                     <tr>
-                        <td colspan="7" style="text-align: center; padding: 60px; color: var(--danger);">
-                            <i class="fas fa-exclamation-circle" style="font-size: 48px; margin-bottom: 20px; display: block;"></i>
-                            <p>Failed to load analytics: ${error.message}</p>
+                        <td colspan="5" style="text-align: center; padding: 40px; color: var(--danger);">
+                            <i class="fas fa-exclamation-circle" style="font-size: 36px; margin-bottom: 16px; display: block;"></i>
+                            <p>Failed to load analytics</p>
                         </td>
                     </tr>
                 `;
@@ -2073,9 +1962,9 @@
             if (!students || students.length === 0) {
                 document.getElementById('studentsTable').innerHTML = `
                     <tr>
-                        <td colspan="6" style="text-align: center; padding: 60px; color: var(--text-secondary);">
-                            <i class="fas fa-search" style="font-size: 48px; margin-bottom: 20px; opacity: 0.3; display: block;"></i>
-                            <p>No students match your search</p>
+                        <td colspan="6" style="text-align: center; padding: 40px; color: var(--text-secondary);">
+                            <i class="fas fa-search" style="font-size: 36px; margin-bottom: 16px; opacity: 0.3; display: block;"></i>
+                            <p>No students found</p>
                         </td>
                     </tr>
                 `;
@@ -2102,9 +1991,6 @@
 
                 // Determine status
                 const isRegistered = regNumber && regNumber !== 'N/A';
-                const statusBadge = isRegistered ? 
-                    '<span class="badge badge-success"><i class="fas fa-check"></i> Registered</span>' :
-                    '<span class="badge badge-warning"><i class="fas fa-clock"></i> Pending</span>';
 
                 html += `
                     <tr>
@@ -2112,33 +1998,34 @@
                             <div class="student-cell">
                                 <div class="student-avatar">${initials}</div>
                                 <div class="student-info">
-                                    <h4>${escapeHtml(fullName)}</h4>
+                                    <h4>${escapeHtml(truncateText(fullName, 25))}</h4>
                                     <p>ID: #${student.id || 'N/A'}</p>
                                 </div>
                             </div>
                         </td>
                         <td>
-                            <div style="font-family: monospace; font-size: 13px; color: var(--text-secondary);">
-                                ${escapeHtml(truncateText(number, 20))}
+                            <div style="font-family: monospace; font-size: 12px; color: var(--text-secondary);">
+                                ${escapeHtml(truncateText(number, 15))}
                             </div>
                         </td>
                         <td>
                             <span class="badge ${isRegistered ? 'badge-success' : 'badge-warning'}">
-                                ${escapeHtml(regNumber)}
+                                ${isRegistered ? '✓ Reg' : 'Pending'}
                             </span>
                         </td>
                         <td>
                             <span class="badge badge-info">
-                                <i class="fas fa-globe"></i> ${language.toUpperCase()}
+                                ${language.toUpperCase()}
                             </span>
                         </td>
                         <td>
                             <div class="timestamp">${registered}</div>
                         </td>
                         <td>
-                            <div style="display: flex; gap: 8px;">
+                            <div style="display: flex; gap: 6px;">
                                 <button class="action-btn btn-edit" onclick="editStudent(${student.id})">
-                                    <i class="fas fa-edit"></i> Edit
+                                    <i class="fas fa-edit"></i>
+                                    <span class="mobile-hidden">Edit</span>
                                 </button>
                             </div>
                         </td>
@@ -2154,9 +2041,9 @@
             if (!exams || exams.length === 0) {
                 document.getElementById('examsTable').innerHTML = `
                     <tr>
-                        <td colspan="6" style="text-align: center; padding: 60px; color: var(--text-secondary);">
-                            <i class="fas fa-search" style="font-size: 48px; margin-bottom: 20px; opacity: 0.3; display: block;"></i>
-                            <p>No exam results match your search</p>
+                        <td colspan="6" style="text-align: center; padding: 40px; color: var(--text-secondary);">
+                            <i class="fas fa-search" style="font-size: 36px; margin-bottom: 16px; opacity: 0.3; display: block;"></i>
+                            <p>No exams found</p>
                         </td>
                     </tr>
                 `;
@@ -2177,7 +2064,6 @@
                 const passed = exam.passed || false;
                 const completed = exam.completed_at ? 
                     formatTimeAgo(exam.completed_at) : 'N/A';
-                const language = exam.language || 'en';
 
                 // Get initials for avatar
                 const initials = studentName.split(' ')
@@ -2190,57 +2076,41 @@
                 // Calculate accuracy
                 const accuracy = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
 
-                // Score color
-                let scoreColor = 'badge-danger';
-                if (score >= 80) scoreColor = 'badge-success';
-                else if (score >= 60) scoreColor = 'badge-warning';
-
                 html += `
                     <tr>
                         <td>
                             <div class="student-cell">
                                 <div class="student-avatar">${initials}</div>
                                 <div class="student-info">
-                                    <h4>${escapeHtml(studentName)}</h4>
-                                    <p>${escapeHtml(course)}</p>
+                                    <h4>${escapeHtml(truncateText(studentName, 20))}</h4>
+                                    <p>${escapeHtml(truncateText(course, 15))}</p>
                                 </div>
                             </div>
                         </td>
                         <td>
                             <div>
-                                <strong style="display: block; margin-bottom: 5px;">${escapeHtml(truncateText(examTitle, 25))}</strong>
-                                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                    <span class="badge ${examType === 'final' ? 'badge-danger' : 'badge-warning'}">
-                                        <i class="fas fa-${examType === 'final' ? 'flag-checkered' : 'file-alt'}"></i> ${escapeHtml(examType)}
-                                    </span>
-                                    <span class="badge badge-info">
-                                        <i class="fas fa-book"></i> ${escapeHtml(course)}
-                                    </span>
-                                </div>
+                                <strong style="display: block; margin-bottom: 4px; font-size: 13px;">${escapeHtml(truncateText(examTitle, 20))}</strong>
+                                <span class="badge ${examType === 'final' ? 'badge-danger' : 'badge-warning'}" style="font-size: 11px;">
+                                    ${escapeHtml(examType)}
+                                </span>
                             </div>
                         </td>
                         <td>
-                            <div style="font-size: 28px; font-weight: 800; color: ${score >= 80 ? 'var(--success)' : score >= 60 ? 'var(--warning)' : 'var(--danger)'}">
+                            <div style="font-size: 22px; font-weight: 800; color: ${score >= 80 ? 'var(--success)' : score >= 60 ? 'var(--warning)' : 'var(--danger)'}">
                                 ${score}%
                             </div>
-                            <div class="stats-detail">
-                                <i class="fas fa-check-circle"></i> ${correctAnswers}/${totalQuestions} correct
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: ${accuracy}%"></div>
+                            <div style="font-size: 11px; color: var(--text-secondary);">
+                                ${correctAnswers}/${totalQuestions}
                             </div>
                         </td>
                         <td>
                             <span class="badge ${passed ? 'badge-success' : 'badge-danger'}">
-                                <i class="fas fa-${passed ? 'check' : 'times'}"></i> ${passed ? 'Passed' : 'Failed'}
+                                ${passed ? 'Pass' : 'Fail'}
                             </span>
-                            <div class="stats-detail">
-                                Accuracy: ${accuracy}%
-                            </div>
                         </td>
                         <td>
-                            <div class="badge" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border);">
-                                <i class="fas fa-clock"></i> ${timeTaken} min
+                            <div style="font-size: 12px; color: var(--text-secondary);">
+                                ${timeTaken}m
                             </div>
                         </td>
                         <td>
@@ -2255,19 +2125,7 @@
 
         // Render analytics table
         function renderAnalyticsTable(performers) {
-            let html = `
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Student</th>
-                        <th>Avg. Score</th>
-                        <th>Exams</th>
-                        <th>Pass Rate</th>
-                        <th>Best Score</th>
-                        <th>Courses</th>
-                    </tr>
-                </thead>
-                <tbody>`;
+            let html = '';
 
             performers.forEach((student, index) => {
                 const rank = index + 1;
@@ -2283,62 +2141,49 @@
                 // Rank badge
                 let rankBadge = '';
                 if (rank === 1) {
-                    rankBadge = '<span style="color: gold; font-weight: bold; font-size: 16px;">🥇</span>';
+                    rankBadge = '🥇';
                 } else if (rank === 2) {
-                    rankBadge = '<span style="color: silver; font-weight: bold; font-size: 16px;">🥈</span>';
+                    rankBadge = '🥈';
                 } else if (rank === 3) {
-                    rankBadge = '<span style="color: #cd7f32; font-weight: bold; font-size: 16px;">🥉</span>';
+                    rankBadge = '🥉';
                 } else {
-                    rankBadge = `<span class="badge badge-info">#${rank}</span>`;
+                    rankBadge = `#${rank}`;
                 }
 
                 html += `
                     <tr>
-                        <td>${rankBadge}</td>
+                        <td>
+                            <span style="font-weight: bold; color: ${rank <= 3 ? 'var(--warning)' : 'var(--text-secondary)'}">
+                                ${rankBadge}
+                            </span>
+                        </td>
                         <td>
                             <div class="student-cell">
-                                <div class="student-avatar">${initials}</div>
+                                <div class="student-avatar" style="width: 32px; height: 32px; font-size: 12px;">${initials}</div>
                                 <div class="student-info">
-                                    <h4>${escapeHtml(student.name)}</h4>
-                                    <p>Top Performer</p>
+                                    <h4 style="font-size: 13px;">${escapeHtml(truncateText(student.name, 18))}</h4>
                                 </div>
                             </div>
                         </td>
                         <td>
-                            <div style="font-size: 24px; font-weight: 800; color: ${student.averageScore >= 80 ? 'var(--success)' : student.averageScore >= 60 ? 'var(--warning)' : 'var(--danger)'}">
+                            <div style="font-size: 18px; font-weight: 800; color: ${student.averageScore >= 80 ? 'var(--success)' : student.averageScore >= 60 ? 'var(--warning)' : 'var(--danger)'}">
                                 ${student.averageScore}%
                             </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: ${student.averageScore}%"></div>
-                            </div>
                         </td>
                         <td>
-                            <span class="badge badge-info">
-                                <i class="fas fa-file-alt"></i> ${student.examCount}
+                            <span class="badge badge-info" style="font-size: 11px;">
+                                ${student.examCount}
                             </span>
                         </td>
                         <td>
-                            <span class="badge ${student.passRate >= 80 ? 'badge-success' : student.passRate >= 60 ? 'badge-warning' : 'badge-danger'}">
+                            <span class="badge ${student.passRate >= 80 ? 'badge-success' : student.passRate >= 60 ? 'badge-warning' : 'badge-danger'}" style="font-size: 11px;">
                                 ${student.passRate}%
                             </span>
-                        </td>
-                        <td>
-                            <span class="badge ${student.bestScore >= 90 ? 'badge-success' : student.bestScore >= 80 ? 'badge-warning' : 'badge-danger'}">
-                                ${student.bestScore}%
-                            </span>
-                        </td>
-                        <td>
-                            <div style="display: flex; flex-wrap: wrap; gap: 5px;">
-                                ${student.courses.map(course => 
-                                    `<span class="badge" style="background: rgba(0,136,204,0.1); border: 1px solid rgba(0,136,204,0.3); font-size: 11px;">${escapeHtml(course)}</span>`
-                                ).join('')}
-                            </div>
                         </td>
                     </tr>
                 `;
             });
 
-            html += '</tbody>';
             document.getElementById('analyticsTable').innerHTML = html;
         }
 
@@ -2350,7 +2195,7 @@
                 performanceChart.destroy();
             }
             
-            const labels = performers.map(p => truncateText(p.name, 15));
+            const labels = performers.map(p => truncateText(p.name, 12));
             const scores = performers.map(p => parseFloat(p.averageScore));
             const colors = scores.map(score => 
                 score >= 80 ? '#2ecc71' : 
@@ -2368,7 +2213,7 @@
                         backgroundColor: colors,
                         borderColor: colors.map(c => c.replace('0.8', '1')),
                         borderWidth: 1,
-                        borderRadius: 6,
+                        borderRadius: 4,
                         borderSkipped: false,
                     }]
                 },
@@ -2388,12 +2233,7 @@
                             callbacks: {
                                 label: function(context) {
                                     const student = performers[context.dataIndex];
-                                    return [
-                                        `Average: ${student.averageScore}%`,
-                                        `Exams: ${student.examCount}`,
-                                        `Pass Rate: ${student.passRate}%`,
-                                        `Best: ${student.bestScore}%`
-                                    ];
+                                    return `Score: ${student.averageScore}%`;
                                 }
                             }
                         }
@@ -2401,13 +2241,14 @@
                     scales: {
                         x: {
                             grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
+                                display: false
                             },
                             ticks: {
                                 color: 'var(--text-secondary)',
                                 font: {
-                                    size: 11
-                                }
+                                    size: 10
+                                },
+                                maxRotation: 45
                             }
                         },
                         y: {
@@ -2420,6 +2261,9 @@
                                 color: 'var(--text-secondary)',
                                 callback: function(value) {
                                     return value + '%';
+                                },
+                                font: {
+                                    size: 10
                                 }
                             }
                         }
@@ -2429,47 +2273,6 @@
         }
 
         // CRUD Operations for Students
-        function showAddStudentModal() {
-            document.getElementById('addStudentModal').classList.add('active');
-        }
-
-        async function addStudent(event) {
-            event.preventDefault();
-            
-            const studentData = {
-                full_name: document.getElementById('studentName').value,
-                number: document.getElementById('studentPhone').value,
-                registration_number: document.getElementById('studentRegNumber').value || 'N/A',
-                language: document.getElementById('studentLanguage').value,
-                registered_at: new Date().toISOString()
-            };
-
-            try {
-                const response = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/students`, {
-                    method: 'POST',
-                    headers: {
-                        'apikey': SUPABASE_CONFIG.anonKey,
-                        'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`,
-                        'Content-Type': 'application/json',
-                        'Prefer': 'return=representation'
-                    },
-                    body: JSON.stringify(studentData)
-                });
-
-                if (response.ok) {
-                    showNotification('Student added successfully!', 'success');
-                    closeModal('addStudentModal');
-                    document.getElementById('studentForm').reset();
-                    await loadAllData();
-                } else {
-                    throw new Error('Failed to add student');
-                }
-            } catch (error) {
-                console.error('Error adding student:', error);
-                showNotification('Error adding student: ' + error.message, 'error');
-            }
-        }
-
         function editStudent(studentId) {
             const student = allStudents.find(s => s.id === studentId);
             if (!student) {
@@ -2655,8 +2458,7 @@
             const date = new Date(dateString);
             return date.toLocaleDateString('en-US', {
                 month: 'short',
-                day: 'numeric',
-                year: 'numeric'
+                day: 'numeric'
             });
         }
 
@@ -2671,9 +2473,9 @@
             const diffDays = Math.floor(diffMs / 86400000);
             
             if (diffMins < 1) return 'Just now';
-            if (diffMins < 60) return `${diffMins}m ago`;
-            if (diffHours < 24) return `${diffHours}h ago`;
-            if (diffDays < 7) return `${diffDays}d ago`;
+            if (diffMins < 60) return `${diffMins}m`;
+            if (diffHours < 24) return `${diffHours}h`;
+            if (diffDays < 7) return `${diffDays}d`;
             
             return formatDate(dateString);
         }
@@ -2717,2085 +2519,6 @@
         // Export data
         function exportData() {
             showNotification('Export feature coming soon!', 'info');
-        }
-
-        function generateReport() {
-            showNotification('Report generation feature coming soon!', 'info');
-        }
-
-        // Initialize everything
-        console.log('Dashboard initialized successfully!');
-    </script>
-</body>
-</html>
-
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Charles Academy - Live Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        :root {
-            --primary: #0088cc;
-            --primary-dark: #006699;
-            --secondary: #00a884;
-            --secondary-dark: #00866a;
-            --danger: #eb4d4b;
-            --warning: #f9ca24;
-            --success: #2ecc71;
-            --dark: #0e1621;
-            --dark-light: #17212b;
-            --darker: #0a1018;
-            --text: #ffffff;
-            --text-secondary: #8f98a3;
-            --border: #2b2b2b;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: var(--dark);
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, var(--dark-light), var(--darker));
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-            border: 1px solid var(--border);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-        }
-
-        .header-left h1 {
-            font-size: 32px;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
-        }
-
-        .header-left p {
-            color: var(--text-secondary);
-            font-size: 15px;
-        }
-
-        .connection-status {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(0, 168, 132, 0.15);
-            padding: 12px 24px;
-            border-radius: 50px;
-            border: 1px solid rgba(0, 168, 132, 0.3);
-            backdrop-filter: blur(10px);
-        }
-
-        .status-dot {
-            width: 12px;
-            height: 12px;
-            background: var(--secondary);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-            box-shadow: 0 0 10px var(--secondary);
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .stat-card {
-            background: var(--dark-light);
-            border-radius: 18px;
-            padding: 30px;
-            border: 1px solid var(--border);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            border-color: var(--primary);
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(0,136,204,0.1), rgba(0,168,132,0.1));
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .stat-card:hover::before {
-            opacity: 1;
-        }
-
-        .stat-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-
-        .stat-title {
-            color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
-
-        .stat-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 26px;
-            color: white;
-            box-shadow: 0 10px 20px rgba(0,136,204,0.3);
-        }
-
-        .stat-value {
-            font-size: 48px;
-            font-weight: 800;
-            margin: 20px 0;
-            color: var(--text);
-            line-height: 1;
-        }
-
-        .stat-subtitle {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-top: 12px;
-        }
-
-        /* Content Grid */
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        @media (max-width: 1100px) {
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Section */
-        .section {
-            background: var(--dark-light);
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid var(--border);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .section-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .section-title i {
-            color: var(--primary);
-            font-size: 24px;
-        }
-
-        /* Tables */
-        .table-container {
-            overflow-x: auto;
-            border-radius: 15px;
-            background: rgba(0,0,0,0.2);
-            border: 1px solid var(--border);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 800px;
-        }
-
-        thead {
-            background: rgba(0,0,0,0.3);
-        }
-
-        th {
-            text-align: left;
-            padding: 20px;
-            color: var(--text-secondary);
-            font-weight: 600;
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            border-bottom: 2px solid var(--border);
-        }
-
-        td {
-            padding: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        tbody tr {
-            transition: all 0.2s;
-        }
-
-        tbody tr:hover {
-            background: rgba(255,255,255,0.03);
-        }
-
-        /* Action Buttons */
-        .action-btn {
-            padding: 8px 16px;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.3s;
-        }
-
-        .btn-edit {
-            background: rgba(0,136,204,0.15);
-            color: var(--primary);
-            border: 1px solid rgba(0,136,204,0.3);
-        }
-
-        .btn-edit:hover {
-            background: rgba(0,136,204,0.25);
-            transform: translateY(-2px);
-        }
-
-        .btn-delete {
-            background: rgba(235,77,75,0.15);
-            color: var(--danger);
-            border: 1px solid rgba(235,77,75,0.3);
-        }
-
-        .btn-delete:hover {
-            background: rgba(235,77,75,0.25);
-            transform: translateY(-2px);
-        }
-
-        /* Badges */
-        .badge {
-            padding: 8px 16px;
-            border-radius: 12px;
-            font-size: 13px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .badge-success {
-            background: rgba(46, 204, 113, 0.15);
-            color: var(--success);
-            border: 1px solid rgba(46, 204, 113, 0.3);
-        }
-
-        .badge-warning {
-            background: rgba(249, 202, 36, 0.15);
-            color: var(--warning);
-            border: 1px solid rgba(249, 202, 36, 0.3);
-        }
-
-        .badge-danger {
-            background: rgba(235, 77, 75, 0.15);
-            color: var(--danger);
-            border: 1px solid rgba(235, 77, 75, 0.3);
-        }
-
-        .badge-info {
-            background: rgba(0, 136, 204, 0.15);
-            color: var(--primary);
-            border: 1px solid rgba(0, 136, 204, 0.3);
-        }
-
-        /* Loading States */
-        .loading {
-            text-align: center;
-            padding: 80px;
-        }
-
-        .spinner {
-            border: 5px solid rgba(255,255,255,0.1);
-            border-top: 5px solid var(--primary);
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 30px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 80px;
-            color: var(--text-secondary);
-        }
-
-        .empty-state i {
-            font-size: 70px;
-            margin-bottom: 25px;
-            opacity: 0.3;
-        }
-
-        /* Buttons */
-        .btn {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            border: none;
-            padding: 16px 32px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(0,136,204,0.3);
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,136,204,0.4);
-        }
-
-        .btn-secondary {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.15);
-        }
-
-        /* Search & Filters */
-        .controls {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .search-box {
-            flex: 1;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 16px 22px;
-            color: var(--text);
-            font-size: 15px;
-            transition: all 0.3s;
-        }
-
-        .search-box:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0,136,204,0.1);
-        }
-
-        .filter-select {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 16px 22px;
-            color: var(--text);
-            font-size: 15px;
-            min-width: 180px;
-            cursor: pointer;
-        }
-
-        /* Student Cell */
-        .student-cell {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .student-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-
-        .student-info h4 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .student-info p {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        /* Progress Bars */
-        .progress-bar {
-            height: 8px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 4px;
-            transition: width 1s ease;
-        }
-
-        /* Performance Chart */
-        .performance-chart {
-            height: 200px;
-            margin-top: 30px;
-        }
-
-        /* Notification */
-        .notification {
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            background: var(--secondary);
-            color: white;
-            padding: 18px 28px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            z-index: 10000;
-            animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.8);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: var(--dark-light);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 500px;
-            width: 90%;
-            border: 1px solid var(--border);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .modal-title {
-            font-size: 24px;
-            font-weight: 700;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 24px;
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: all 0.3s;
-        }
-
-        .modal-close:hover {
-            background: rgba(255,255,255,0.05);
-            color: var(--text);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 14px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            color: var(--text);
-            font-size: 15px;
-            transition: all 0.3s;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0,136,204,0.1);
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        /* Timestamp */
-        .timestamp {
-            font-size: 13px;
-            color: var(--text-secondary);
-            font-family: 'Courier New', monospace;
-        }
-
-        /* Stats Detail */
-        .stats-detail {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-            
-            .header {
-                flex-direction: column;
-                gap: 20px;
-                text-align: center;
-                padding: 25px;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .section {
-                padding: 20px;
-            }
-            
-            th, td {
-                padding: 15px;
-            }
-            
-            .modal-content {
-                padding: 25px;
-            }
-            
-            .modal-actions {
-                flex-direction: column;
-            }
-            
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <div class="header-left">
-                <h1><i class="fas fa-graduation-cap"></i> Charles Academy Dashboard</h1>
-                <p>Live data from Supabase • CRUD Operations • <span id="dataTimestamp">Loading...</span></p>
-            </div>
-            <div class="connection-status">
-                <span class="status-dot"></span>
-                <span>Connected to Database</span>
-                <button class="btn-secondary" onclick="loadAllData()" style="padding: 10px 20px; margin-left: 15px;">
-                    <i class="fas fa-sync-alt"></i> Refresh
-                </button>
-            </div>
-        </div>
-
-        <!-- Stats Cards -->
-        <div class="stats-grid" id="statsGrid">
-            <div class="loading">
-                <div class="spinner"></div>
-                <p>Loading statistics...</p>
-            </div>
-        </div>
-
-        <!-- Main Content Grid -->
-        <div class="content-grid">
-            <!-- Students Section -->
-            <div class="section">
-                <div class="section-header">
-                    <div class="section-title">
-                        <i class="fas fa-users"></i>
-                        Students Management
-                        <span class="badge" id="studentsCount">Loading...</span>
-                    </div>
-                    <div class="controls">
-                        <input type="text" class="search-box" placeholder="Search students..." id="studentSearch">
-                        <select class="filter-select" id="studentFilter" onchange="filterStudents()">
-                            <option value="all">All Students</option>
-                            <option value="today">Registered Today</option>
-                            <option value="week">This Week</option>
-                            <option value="registered">Registered Only</option>
-                            <option value="pending">Pending Only</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Student</th>
-                                <th>Contact</th>
-                                <th>Registration</th>
-                                <th>Language</th>
-                                <th>Registered</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="studentsTable">
-                            <!-- Students will be loaded here -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Exams Section -->
-            <div class="section">
-                <div class="section-header">
-                    <div class="section-title">
-                        <i class="fas fa-file-alt"></i>
-                        Exam Results
-                        <span class="badge" id="examsCount">Loading...</span>
-                    </div>
-                    <div class="controls">
-                        <input type="text" class="search-box" placeholder="Search exams..." id="examSearch">
-                        <select class="filter-select" id="examFilter" onchange="filterExams()">
-                            <option value="all">All Results</option>
-                            <option value="passed">Passed Only</option>
-                            <option value="failed">Failed Only</option>
-                            <option value="90+">90%+ Scores</option>
-                            <option value="today">Today's Exams</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Student</th>
-                                <th>Exam Details</th>
-                                <th>Score</th>
-                                <th>Performance</th>
-                                <th>Time</th>
-                                <th>Completed</th>
-                            </tr>
-                        </thead>
-                        <tbody id="examsTable">
-                            <!-- Exams will be loaded here -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- Analytics Section -->
-        <div class="section">
-            <div class="section-header">
-                <div class="section-title">
-                    <i class="fas fa-chart-line"></i>
-                    Performance Analytics
-                </div>
-                <div>
-                    
-                </div>
-            </div>
-            <div class="content-grid">
-                <div class="table-container">
-                    <table id="analyticsTable">
-                        <!-- Analytics will be loaded here -->
-                    </table>
-                </div>
-                <div class="performance-chart">
-                    <canvas id="performanceChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add Student Modal -->
-    <div class="modal" id="addStudentModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Add New Student</h3>
-                <button class="modal-close" onclick="closeModal('addStudentModal')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form id="studentForm" onsubmit="return addStudent(event)">
-                <div class="form-group">
-                    <label class="form-label">Full Name *</label>
-                    <input type="text" class="form-input" id="studentName" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Phone Number *</label>
-                    <input type="tel" class="form-input" id="studentPhone" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Registration Number</label>
-                    <input type="text" class="form-input" id="studentRegNumber" placeholder="Leave empty if not registered">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Language *</label>
-                    <select class="form-input" id="studentLanguage" required>
-                        <option value="en">English</option>
-                        <option value="fr">French</option>
-                        <option value="sw">Swahili</option>
-                    </select>
-                </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-secondary" onclick="closeModal('addStudentModal')">Cancel</button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Save Student
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Edit Student Modal -->
-    <div class="modal" id="editStudentModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Edit Student</h3>
-                <button class="modal-close" onclick="closeModal('editStudentModal')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form id="editStudentForm" onsubmit="return updateStudent(event)">
-                <input type="hidden" id="editStudentId">
-                <div class="form-group">
-                    <label class="form-label">Full Name *</label>
-                    <input type="text" class="form-input" id="editStudentName" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Phone Number *</label>
-                    <input type="tel" class="form-input" id="editStudentPhone" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Registration Number</label>
-                    <input type="text" class="form-input" id="editStudentRegNumber">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Language *</label>
-                    <select class="form-input" id="editStudentLanguage" required>
-                        <option value="en">English</option>
-                        <option value="fr">French</option>
-                        <option value="sw">Swahili</option>
-                    </select>
-                </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-secondary" onclick="closeModal('editStudentModal')">Cancel</button>
-                    <button type="button" class="btn btn-danger" onclick="deleteStudent()" style="background: rgba(235,77,75,0.1); border: 1px solid rgba(235,77,75,0.3); color: var(--danger);">
-                        <i class="fas fa-trash"></i> Delete
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Update
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        // Supabase Configuration - CORRECT FOR YOUR DATABASE
-        const SUPABASE_CONFIG = {
-            url: 'https://naycamtrebtnntoelucs.supabase.co',
-            anonKey: 'sb_publishable_jgQueATWfvg8CdvtLtDTKQ_25vDlahs'
-        };
-
-        // Global state
-        let allStudents = [];
-        let allExamResults = [];
-        let performanceChart = null;
-        let currentStudentId = null;
-
-        // Initialize dashboard
-        document.addEventListener('DOMContentLoaded', async () => {
-            console.log('🚀 Initializing Charles Academy Dashboard...');
-            console.log('📊 Supabase URL:', SUPABASE_CONFIG.url);
-            
-            // Setup event listeners
-            setupEventListeners();
-            
-            // Test connection first
-            await testConnection();
-            
-            // Load all data
-            await loadAllData();
-            
-            // Auto-refresh every 30 seconds
-            setInterval(() => {
-                if (document.visibilityState === 'visible') {
-                    loadStats();
-                    console.log('🔄 Auto-refreshing stats...');
-                }
-            }, 30000);
-        });
-
-        // Setup event listeners
-        function setupEventListeners() {
-            // Student search
-            const studentSearch = document.getElementById('studentSearch');
-            studentSearch.addEventListener('input', debounce(() => filterStudents(), 300));
-
-            // Exam search
-            const examSearch = document.getElementById('examSearch');
-            examSearch.addEventListener('input', debounce(() => filterExams(), 300));
-        }
-
-        // Test connection
-        async function testConnection() {
-            console.log('🔌 Testing database connection...');
-            
-            try {
-                const testUrl = `${SUPABASE_CONFIG.url}/rest/v1/students?select=count&limit=1`;
-                
-                const response = await fetch(testUrl, {
-                    headers: {
-                        'apikey': SUPABASE_CONFIG.anonKey,
-                        'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (response.ok) {
-                    console.log('✅ Connection successful!');
-                    showNotification('Connected to database successfully!', 'success');
-                    return true;
-                } else {
-                    throw new Error('Connection failed');
-                }
-            } catch (error) {
-                console.error('❌ Connection failed:', error);
-                showNotification('Connection failed. Check console for details.', 'error');
-                return false;
-            }
-        }
-
-        // Debounce function for search
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
-
-        // Load all data
-        async function loadAllData() {
-            try {
-                showNotification('Loading dashboard data...', 'info');
-                
-                // Update timestamp
-                updateTimestamp();
-                
-                // Load all data in parallel
-                await Promise.all([
-                    loadStats(),
-                    loadStudents(),
-                    loadExams(),
-                    loadAnalytics()
-                ]);
-                
-                showNotification('Dashboard updated successfully!', 'success');
-                
-            } catch (error) {
-                console.error('Error loading all data:', error);
-                showNotification('Error loading data. Please refresh.', 'error');
-            }
-        }
-
-        // Update timestamp
-        function updateTimestamp() {
-            const now = new Date();
-            const formatted = now.toLocaleString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-            document.getElementById('dataTimestamp').textContent = `Last updated: ${formatted}`;
-        }
-
-        // Load statistics
-        async function loadStats() {
-            try {
-                console.log('📊 Loading statistics...');
-                
-                // Get students data
-                const studentsUrl = `${SUPABASE_CONFIG.url}/rest/v1/students?select=id,registered_at&order=id`;
-                const studentsRes = await fetch(studentsUrl, {
-                    headers: {
-                        'apikey': SUPABASE_CONFIG.anonKey,
-                        'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`,
-                        'Range': '0-9'
-                    }
-                });
-
-                // Get exam results data
-                const examsUrl = `${SUPABASE_CONFIG.url}/rest/v1/exam_results?select=id,score,passed,completed_at&order=completed_at.desc`;
-                const examsRes = await fetch(examsUrl, {
-                    headers: {
-                        'apikey': SUPABASE_CONFIG.anonKey,
-                        'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`,
-                        'Range': '0-49'
-                    }
-                });
-
-                if (!studentsRes.ok || !examsRes.ok) {
-                    throw new Error('Failed to fetch data');
-                }
-
-                // Parse students
-                const studentsText = await studentsRes.text();
-                const students = studentsText ? JSON.parse(studentsText) : [];
-                
-                // Parse exams
-                const examsText = await examsRes.text();
-                const exams = examsText ? JSON.parse(examsText) : [];
-
-                // Calculate statistics
-                const totalStudents = await getTotalCount('students');
-                const totalExams = await getTotalCount('exam_results');
-                
-                let averageScore = 0;
-                let passRate = 0;
-                let todayExams = 0;
-                let todayStudents = 0;
-                
-                if (exams.length > 0) {
-                    const totalScore = exams.reduce((sum, exam) => sum + (parseFloat(exam.score) || 0), 0);
-                    averageScore = (totalScore / exams.length).toFixed(1);
-                    
-                    const passedExams = exams.filter(exam => exam.passed === true).length;
-                    passRate = Math.round((passedExams / exams.length) * 100);
-                    
-                    // Count today's exams
-                    const today = new Date().toISOString().split('T')[0];
-                    todayExams = exams.filter(exam => 
-                        exam.completed_at && exam.completed_at.startsWith(today)
-                    ).length;
-                }
-
-                if (students.length > 0) {
-                    const today = new Date().toISOString().split('T')[0];
-                    todayStudents = students.filter(student => 
-                        student.registered_at && student.registered_at.startsWith(today)
-                    ).length;
-                }
-
-                // Update stats grid
-                document.getElementById('statsGrid').innerHTML = `
-                    <div class="stat-card" onclick="loadStudents()">
-                        <div class="stat-header">
-                            <span class="stat-title">Total Students</span>
-                            <div class="stat-icon">
-                                <i class="fas fa-users"></i>
-                            </div>
-                        </div>
-                        <div class="stat-value">${totalStudents}</div>
-                        <div class="stats-detail">
-                            <i class="fas fa-user-plus"></i>
-                            <span>${todayStudents} registered today</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${Math.min(100, (totalStudents / 100) * 100)}%"></div>
-                        </div>
-                    </div>
-
-                    <div class="stat-card" onclick="loadExams()">
-                        <div class="stat-header">
-                            <span class="stat-title">Total Exams</span>
-                            <div class="stat-icon">
-                                <i class="fas fa-file-alt"></i>
-                            </div>
-                        </div>
-                        <div class="stat-value">${totalExams}</div>
-                        <div class="stats-detail">
-                            <i class="fas fa-calendar-day"></i>
-                            <span>${todayExams} exams today</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${Math.min(100, (totalExams / 500) * 100)}%"></div>
-                        </div>
-                    </div>
-
-                    <div class="stat-card" onclick="filterExamsByScore()">
-                        <div class="stat-header">
-                            <span class="stat-title">Average Score</span>
-                            <div class="stat-icon">
-                                <i class="fas fa-chart-bar"></i>
-                            </div>
-                        </div>
-                        <div class="stat-value">${averageScore}%</div>
-                        <div class="stats-detail">
-                            <i class="fas fa-${averageScore >= 70 ? 'arrow-up' : 'arrow-down'}"></i>
-                            <span>${averageScore >= 70 ? 'Good Performance' : 'Needs Improvement'}</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${averageScore}%"></div>
-                        </div>
-                    </div>
-
-                    <div class="stat-card" onclick="filterExams()">
-                        <div class="stat-header">
-                            <span class="stat-title">Pass Rate</span>
-                            <div class="stat-icon">
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                        </div>
-                        <div class="stat-value">${passRate}%</div>
-                        <div class="stats-detail">
-                            <i class="fas fa-graduation-cap"></i>
-                            <span>Students passing exams</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${passRate}%"></div>
-                        </div>
-                    </div>
-                `;
-
-                console.log('✅ Statistics loaded:', { totalStudents, totalExams, averageScore, passRate });
-
-            } catch (error) {
-                console.error('Error loading stats:', error);
-                document.getElementById('statsGrid').innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <p>Failed to load statistics</p>
-                        <button class="btn" onclick="loadStats()" style="margin-top: 20px;">
-                            <i class="fas fa-redo"></i> Retry
-                        </button>
-                    </div>
-                `;
-            }
-        }
-
-        // Get total count from a table
-        async function getTotalCount(tableName) {
-            try {
-                const url = `${SUPABASE_CONFIG.url}/rest/v1/${tableName}?select=id`;
-                const response = await fetch(url, {
-                    headers: {
-                        'apikey': SUPABASE_CONFIG.anonKey,
-                        'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`,
-                        'Range': '0-0'
-                    }
-                });
-
-                const range = response.headers.get('content-range');
-                if (range) {
-                    const match = range.match(/\/(\d+)/);
-                    return match ? parseInt(match[1]) : 0;
-                }
-                return 0;
-            } catch (error) {
-                console.error(`Error getting count for ${tableName}:`, error);
-                return 0;
-            }
-        }
-
-        // Load students
-        async function loadStudents() {
-            try {
-                console.log('👥 Loading students...');
-                
-                const url = `${SUPABASE_CONFIG.url}/rest/v1/students?select=id,full_name,number,registration_number,language,registered_at&order=registered_at.desc&limit=50`;
-                
-                const response = await fetch(url, {
-                    headers: {
-                        'apikey': SUPABASE_CONFIG.anonKey,
-                        'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-
-                const data = await response.json();
-                allStudents = data || [];
-
-                // Update students count
-                document.getElementById('studentsCount').textContent = allStudents.length;
-                document.getElementById('studentsCount').className = `badge ${allStudents.length > 0 ? 'badge-success' : 'badge-warning'}`;
-
-                if (allStudents.length === 0) {
-                    document.getElementById('studentsTable').innerHTML = `
-                        <tr>
-                            <td colspan="6" style="text-align: center; padding: 60px;">
-                                <div style="color: var(--text-secondary);">
-                                    <i class="fas fa-users-slash" style="font-size: 48px; margin-bottom: 20px; opacity: 0.3; display: block;"></i>
-                                    <p>No students found in database</p>
-                                    <button class="btn" onclick="showAddStudentModal()" style="margin-top: 20px;">
-                                        <i class="fas fa-user-plus"></i> Add First Student
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-                    return;
-                }
-
-                renderStudentsTable(allStudents);
-                console.log(`✅ Loaded ${allStudents.length} students`);
-
-            } catch (error) {
-                console.error('Error loading students:', error);
-                document.getElementById('studentsTable').innerHTML = `
-                    <tr>
-                        <td colspan="6" style="text-align: center; padding: 60px; color: var(--danger);">
-                            <i class="fas fa-exclamation-circle" style="font-size: 48px; margin-bottom: 20px; display: block;"></i>
-                            <p>Failed to load students: ${error.message}</p>
-                            <button class="btn" onclick="loadStudents()" style="margin-top: 20px;">
-                                <i class="fas fa-redo"></i> Retry
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            }
-        }
-
-        // Load exam results
-        async function loadExams() {
-            try {
-                console.log('📝 Loading exam results...');
-                
-                const url = `${SUPABASE_CONFIG.url}/rest/v1/exam_results?select=student_name,exam_title,course,exam_type,score,total_questions,correct_answers,time_taken_minutes,passed,completed_at,language&order=completed_at.desc&limit=50`;
-                
-                const response = await fetch(url, {
-                    headers: {
-                        'apikey': SUPABASE_CONFIG.anonKey,
-                        'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-
-                const data = await response.json();
-                allExamResults = data || [];
-
-                // Update exams count
-                document.getElementById('examsCount').textContent = allExamResults.length;
-                document.getElementById('examsCount').className = `badge ${allExamResults.length > 0 ? 'badge-success' : 'badge-warning'}`;
-
-                if (allExamResults.length === 0) {
-                    document.getElementById('examsTable').innerHTML = `
-                        <tr>
-                            <td colspan="6" style="text-align: center; padding: 60px;">
-                                <div style="color: var(--text-secondary);">
-                                    <i class="fas fa-file-alt" style="font-size: 48px; margin-bottom: 20px; opacity: 0.3; display: block;"></i>
-                                    <p>No exam results found</p>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-                    return;
-                }
-
-                renderExamsTable(allExamResults);
-                console.log(`✅ Loaded ${allExamResults.length} exam results`);
-
-            } catch (error) {
-                console.error('Error loading exams:', error);
-                document.getElementById('examsTable').innerHTML = `
-                    <tr>
-                        <td colspan="6" style="text-align: center; padding: 60px; color: var(--danger);">
-                            <i class="fas fa-exclamation-circle" style="font-size: 48px; margin-bottom: 20px; display: block;"></i>
-                            <p>Failed to load exam results: ${error.message}</p>
-                            <button class="btn" onclick="loadExams()" style="margin-top: 20px;">
-                                <i class="fas fa-redo"></i> Retry
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            }
-        }
-
-        // Load analytics
-        async function loadAnalytics() {
-            try {
-                console.log('📈 Loading analytics...');
-                
-                const url = `${SUPABASE_CONFIG.url}/rest/v1/exam_results?select=student_name,score,passed,course,exam_title&order=score.desc&limit=50`;
-                
-                const response = await fetch(url, {
-                    headers: {
-                        'apikey': SUPABASE_CONFIG.anonKey,
-                        'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-
-                const results = await response.json();
-
-                if (!results || results.length === 0) {
-                    document.getElementById('analyticsTable').innerHTML = `
-                        <tr>
-                            <td colspan="7" style="text-align: center; padding: 60px; color: var(--text-secondary);">
-                                <i class="fas fa-chart-bar" style="font-size: 48px; margin-bottom: 20px; opacity: 0.3; display: block;"></i>
-                                <p>No analytics data available</p>
-                            </td>
-                        </tr>
-                    `;
-                    return;
-                }
-
-                // Group by student for top performers
-                const studentPerformance = {};
-                results.forEach(result => {
-                    const studentName = result.student_name;
-                    if (!studentName) return;
-
-                    if (!studentPerformance[studentName]) {
-                        studentPerformance[studentName] = {
-                            scores: [],
-                            exams: [],
-                            totalScore: 0,
-                            passed: 0,
-                            courses: new Set()
-                        };
-                    }
-                    
-                    studentPerformance[studentName].scores.push(parseFloat(result.score) || 0);
-                    studentPerformance[studentName].exams.push(result.exam_title);
-                    studentPerformance[studentName].totalScore += parseFloat(result.score) || 0;
-                    if (result.passed) studentPerformance[studentName].passed++;
-                    if (result.course) studentPerformance[studentName].courses.add(result.course);
-                });
-
-                // Calculate top performers
-                const topPerformers = Object.entries(studentPerformance)
-                    .map(([name, data]) => ({
-                        name,
-                        averageScore: data.scores.length > 0 ? 
-                            (data.totalScore / data.scores.length).toFixed(1) : 0,
-                        examCount: data.exams.length,
-                        passRate: Math.round((data.passed / data.exams.length) * 100),
-                        bestScore: Math.max(...data.scores),
-                        courses: Array.from(data.courses).slice(0, 3)
-                    }))
-                    .sort((a, b) => b.averageScore - a.averageScore)
-                    .slice(0, 10);
-
-                // Render analytics table
-                renderAnalyticsTable(topPerformers);
-                
-                // Update performance chart
-                updatePerformanceChart(topPerformers);
-                
-                console.log(`✅ Loaded analytics for ${topPerformers.length} top performers`);
-
-            } catch (error) {
-                console.error('Error loading analytics:', error);
-                document.getElementById('analyticsTable').innerHTML = `
-                    <tr>
-                        <td colspan="7" style="text-align: center; padding: 60px; color: var(--danger);">
-                            <i class="fas fa-exclamation-circle" style="font-size: 48px; margin-bottom: 20px; display: block;"></i>
-                            <p>Failed to load analytics: ${error.message}</p>
-                        </td>
-                    </tr>
-                `;
-            }
-        }
-
-        // Render students table
-        function renderStudentsTable(students) {
-            if (!students || students.length === 0) {
-                document.getElementById('studentsTable').innerHTML = `
-                    <tr>
-                        <td colspan="6" style="text-align: center; padding: 60px; color: var(--text-secondary);">
-                            <i class="fas fa-search" style="font-size: 48px; margin-bottom: 20px; opacity: 0.3; display: block;"></i>
-                            <p>No students match your search</p>
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-
-            let html = '';
-
-            students.forEach(student => {
-                const fullName = student.full_name || 'Unknown';
-                const number = student.number || student.jid || 'N/A';
-                const regNumber = student.registration_number || 'N/A';
-                const language = student.language || 'en';
-                const registered = student.registered_at ? 
-                    formatDate(student.registered_at) : 'N/A';
-                
-                // Get initials for avatar
-                const initials = fullName.split(' ')
-                    .filter(n => n.length > 0)
-                    .map(n => n[0])
-                    .join('')
-                    .toUpperCase()
-                    .substring(0, 2);
-
-                // Determine status
-                const isRegistered = regNumber && regNumber !== 'N/A';
-                const statusBadge = isRegistered ? 
-                    '<span class="badge badge-success"><i class="fas fa-check"></i> Registered</span>' :
-                    '<span class="badge badge-warning"><i class="fas fa-clock"></i> Pending</span>';
-
-                html += `
-                    <tr>
-                        <td>
-                            <div class="student-cell">
-                                <div class="student-avatar">${initials}</div>
-                                <div class="student-info">
-                                    <h4>${escapeHtml(fullName)}</h4>
-                                    <p>ID: #${student.id || 'N/A'}</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div style="font-family: monospace; font-size: 13px; color: var(--text-secondary);">
-                                ${escapeHtml(truncateText(number, 20))}
-                            </div>
-                        </td>
-                        <td>
-                            <span class="badge ${isRegistered ? 'badge-success' : 'badge-warning'}">
-                                ${escapeHtml(regNumber)}
-                            </span>
-                        </td>
-                        <td>
-                            <span class="badge badge-info">
-                                <i class="fas fa-globe"></i> ${language.toUpperCase()}
-                            </span>
-                        </td>
-                        <td>
-                            <div class="timestamp">${registered}</div>
-                        </td>
-                        <td>
-                            <div style="display: flex; gap: 8px;">
-                                <button class="action-btn btn-edit" onclick="editStudent(${student.id})">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            });
-
-            document.getElementById('studentsTable').innerHTML = html;
-        }
-
-        // Render exams table
-        function renderExamsTable(exams) {
-            if (!exams || exams.length === 0) {
-                document.getElementById('examsTable').innerHTML = `
-                    <tr>
-                        <td colspan="6" style="text-align: center; padding: 60px; color: var(--text-secondary);">
-                            <i class="fas fa-search" style="font-size: 48px; margin-bottom: 20px; opacity: 0.3; display: block;"></i>
-                            <p>No exam results match your search</p>
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-
-            let html = '';
-
-            exams.forEach(exam => {
-                const studentName = exam.student_name || 'Unknown';
-                const examTitle = exam.exam_title || 'Unknown';
-                const course = exam.course || 'General';
-                const examType = exam.exam_type || 'N/A';
-                const score = exam.score || 0;
-                const totalQuestions = exam.total_questions || 0;
-                const correctAnswers = exam.correct_answers || 0;
-                const timeTaken = exam.time_taken_minutes || 0;
-                const passed = exam.passed || false;
-                const completed = exam.completed_at ? 
-                    formatTimeAgo(exam.completed_at) : 'N/A';
-                const language = exam.language || 'en';
-
-                // Get initials for avatar
-                const initials = studentName.split(' ')
-                    .filter(n => n.length > 0)
-                    .map(n => n[0])
-                    .join('')
-                    .toUpperCase()
-                    .substring(0, 2);
-
-                // Calculate accuracy
-                const accuracy = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
-
-                // Score color
-                let scoreColor = 'badge-danger';
-                if (score >= 80) scoreColor = 'badge-success';
-                else if (score >= 60) scoreColor = 'badge-warning';
-
-                html += `
-                    <tr>
-                        <td>
-                            <div class="student-cell">
-                                <div class="student-avatar">${initials}</div>
-                                <div class="student-info">
-                                    <h4>${escapeHtml(studentName)}</h4>
-                                    <p>${escapeHtml(course)}</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div>
-                                <strong style="display: block; margin-bottom: 5px;">${escapeHtml(truncateText(examTitle, 25))}</strong>
-                                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                    <span class="badge ${examType === 'final' ? 'badge-danger' : 'badge-warning'}">
-                                        <i class="fas fa-${examType === 'final' ? 'flag-checkered' : 'file-alt'}"></i> ${escapeHtml(examType)}
-                                    </span>
-                                    <span class="badge badge-info">
-                                        <i class="fas fa-book"></i> ${escapeHtml(course)}
-                                    </span>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div style="font-size: 28px; font-weight: 800; color: ${score >= 80 ? 'var(--success)' : score >= 60 ? 'var(--warning)' : 'var(--danger)'}">
-                                ${score}%
-                            </div>
-                            <div class="stats-detail">
-                                <i class="fas fa-check-circle"></i> ${correctAnswers}/${totalQuestions} correct
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: ${accuracy}%"></div>
-                            </div>
-                        </td>
-                        <td>
-                            <span class="badge ${passed ? 'badge-success' : 'badge-danger'}">
-                                <i class="fas fa-${passed ? 'check' : 'times'}"></i> ${passed ? 'Passed' : 'Failed'}
-                            </span>
-                            <div class="stats-detail">
-                                Accuracy: ${accuracy}%
-                            </div>
-                        </td>
-                        <td>
-                            <div class="badge" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border);">
-                                <i class="fas fa-clock"></i> ${timeTaken} min
-                            </div>
-                        </td>
-                        <td>
-                            <div class="timestamp">${completed}</div>
-                        </td>
-                    </tr>
-                `;
-            });
-
-            document.getElementById('examsTable').innerHTML = html;
-        }
-
-        // Render analytics table
-        function renderAnalyticsTable(performers) {
-            let html = `
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Student</th>
-                        <th>Avg. Score</th>
-                        <th>Exams</th>
-                        <th>Pass Rate</th>
-                        <th>Best Score</th>
-                        <th>Courses</th>
-                    </tr>
-                </thead>
-                <tbody>`;
-
-            performers.forEach((student, index) => {
-                const rank = index + 1;
-                
-                // Get initials for avatar
-                const initials = student.name.split(' ')
-                    .filter(n => n.length > 0)
-                    .map(n => n[0])
-                    .join('')
-                    .toUpperCase()
-                    .substring(0, 2);
-
-                // Rank badge
-                let rankBadge = '';
-                if (rank === 1) {
-                    rankBadge = '<span style="color: gold; font-weight: bold; font-size: 16px;">🥇</span>';
-                } else if (rank === 2) {
-                    rankBadge = '<span style="color: silver; font-weight: bold; font-size: 16px;">🥈</span>';
-                } else if (rank === 3) {
-                    rankBadge = '<span style="color: #cd7f32; font-weight: bold; font-size: 16px;">🥉</span>';
-                } else {
-                    rankBadge = `<span class="badge badge-info">#${rank}</span>`;
-                }
-
-                html += `
-                    <tr>
-                        <td>${rankBadge}</td>
-                        <td>
-                            <div class="student-cell">
-                                <div class="student-avatar">${initials}</div>
-                                <div class="student-info">
-                                    <h4>${escapeHtml(student.name)}</h4>
-                                    <p>Top Performer</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div style="font-size: 24px; font-weight: 800; color: ${student.averageScore >= 80 ? 'var(--success)' : student.averageScore >= 60 ? 'var(--warning)' : 'var(--danger)'}">
-                                ${student.averageScore}%
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: ${student.averageScore}%"></div>
-                            </div>
-                        </td>
-                        <td>
-                            <span class="badge badge-info">
-                                <i class="fas fa-file-alt"></i> ${student.examCount}
-                            </span>
-                        </td>
-                        <td>
-                            <span class="badge ${student.passRate >= 80 ? 'badge-success' : student.passRate >= 60 ? 'badge-warning' : 'badge-danger'}">
-                                ${student.passRate}%
-                            </span>
-                        </td>
-                        <td>
-                            <span class="badge ${student.bestScore >= 90 ? 'badge-success' : student.bestScore >= 80 ? 'badge-warning' : 'badge-danger'}">
-                                ${student.bestScore}%
-                            </span>
-                        </td>
-                        <td>
-                            <div style="display: flex; flex-wrap: wrap; gap: 5px;">
-                                ${student.courses.map(course => 
-                                    `<span class="badge" style="background: rgba(0,136,204,0.1); border: 1px solid rgba(0,136,204,0.3); font-size: 11px;">${escapeHtml(course)}</span>`
-                                ).join('')}
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            });
-
-            html += '</tbody>';
-            document.getElementById('analyticsTable').innerHTML = html;
-        }
-
-        // Update performance chart
-        function updatePerformanceChart(performers) {
-            const ctx = document.getElementById('performanceChart').getContext('2d');
-            
-            if (performanceChart) {
-                performanceChart.destroy();
-            }
-            
-            const labels = performers.map(p => truncateText(p.name, 15));
-            const scores = performers.map(p => parseFloat(p.averageScore));
-            const colors = scores.map(score => 
-                score >= 80 ? '#2ecc71' : 
-                score >= 70 ? '#f9ca24' : 
-                score >= 60 ? '#e67e22' : '#eb4d4b'
-            );
-            
-            performanceChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Average Score (%)',
-                        data: scores,
-                        backgroundColor: colors,
-                        borderColor: colors.map(c => c.replace('0.8', '1')),
-                        borderWidth: 1,
-                        borderRadius: 6,
-                        borderSkipped: false,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(23, 33, 43, 0.9)',
-                            titleColor: '#ffffff',
-                            bodyColor: '#ffffff',
-                            borderColor: 'var(--primary)',
-                            borderWidth: 1,
-                            callbacks: {
-                                label: function(context) {
-                                    const student = performers[context.dataIndex];
-                                    return [
-                                        `Average: ${student.averageScore}%`,
-                                        `Exams: ${student.examCount}`,
-                                        `Pass Rate: ${student.passRate}%`,
-                                        `Best: ${student.bestScore}%`
-                                    ];
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            },
-                            ticks: {
-                                color: 'var(--text-secondary)',
-                                font: {
-                                    size: 11
-                                }
-                            }
-                        },
-                        y: {
-                            beginAtZero: true,
-                            max: 100,
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            },
-                            ticks: {
-                                color: 'var(--text-secondary)',
-                                callback: function(value) {
-                                    return value + '%';
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // CRUD Operations for Students
-        function showAddStudentModal() {
-            document.getElementById('addStudentModal').classList.add('active');
-        }
-
-        async function addStudent(event) {
-            event.preventDefault();
-            
-            const studentData = {
-                full_name: document.getElementById('studentName').value,
-                number: document.getElementById('studentPhone').value,
-                registration_number: document.getElementById('studentRegNumber').value || 'N/A',
-                language: document.getElementById('studentLanguage').value,
-                registered_at: new Date().toISOString()
-            };
-
-            try {
-                const response = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/students`, {
-                    method: 'POST',
-                    headers: {
-                        'apikey': SUPABASE_CONFIG.anonKey,
-                        'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`,
-                        'Content-Type': 'application/json',
-                        'Prefer': 'return=representation'
-                    },
-                    body: JSON.stringify(studentData)
-                });
-
-                if (response.ok) {
-                    showNotification('Student added successfully!', 'success');
-                    closeModal('addStudentModal');
-                    document.getElementById('studentForm').reset();
-                    await loadAllData();
-                } else {
-                    throw new Error('Failed to add student');
-                }
-            } catch (error) {
-                console.error('Error adding student:', error);
-                showNotification('Error adding student: ' + error.message, 'error');
-            }
-        }
-
-        function editStudent(studentId) {
-            const student = allStudents.find(s => s.id === studentId);
-            if (!student) {
-                showNotification('Student not found', 'error');
-                return;
-            }
-
-            currentStudentId = studentId;
-            
-            document.getElementById('editStudentId').value = studentId;
-            document.getElementById('editStudentName').value = student.full_name || '';
-            document.getElementById('editStudentPhone').value = student.number || '';
-            document.getElementById('editStudentRegNumber').value = student.registration_number || '';
-            document.getElementById('editStudentLanguage').value = student.language || 'en';
-            
-            document.getElementById('editStudentModal').classList.add('active');
-        }
-
-        async function updateStudent(event) {
-            event.preventDefault();
-            
-            const studentData = {
-                full_name: document.getElementById('editStudentName').value,
-                number: document.getElementById('editStudentPhone').value,
-                registration_number: document.getElementById('editStudentRegNumber').value || 'N/A',
-                language: document.getElementById('editStudentLanguage').value,
-                updated_at: new Date().toISOString()
-            };
-
-            try {
-                const response = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/students?id=eq.${currentStudentId}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'apikey': SUPABASE_CONFIG.anonKey,
-                        'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`,
-                        'Content-Type': 'application/json',
-                        'Prefer': 'return=representation'
-                    },
-                    body: JSON.stringify(studentData)
-                });
-
-                if (response.ok) {
-                    showNotification('Student updated successfully!', 'success');
-                    closeModal('editStudentModal');
-                    await loadAllData();
-                } else {
-                    throw new Error('Failed to update student');
-                }
-            } catch (error) {
-                console.error('Error updating student:', error);
-                showNotification('Error updating student: ' + error.message, 'error');
-            }
-        }
-
-        async function deleteStudent() {
-            if (!confirm('Are you sure you want to delete this student? This action cannot be undone.')) {
-                return;
-            }
-
-            try {
-                const response = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/students?id=eq.${currentStudentId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'apikey': SUPABASE_CONFIG.anonKey,
-                        'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`
-                    }
-                });
-
-                if (response.ok) {
-                    showNotification('Student deleted successfully!', 'success');
-                    closeModal('editStudentModal');
-                    await loadAllData();
-                } else {
-                    throw new Error('Failed to delete student');
-                }
-            } catch (error) {
-                console.error('Error deleting student:', error);
-                showNotification('Error deleting student: ' + error.message, 'error');
-            }
-        }
-
-        // Filter students
-        function filterStudents() {
-            const searchTerm = document.getElementById('studentSearch').value.toLowerCase();
-            const filterType = document.getElementById('studentFilter').value;
-
-            let filtered = [...allStudents];
-
-            // Apply search filter
-            if (searchTerm) {
-                filtered = filtered.filter(student => 
-                    (student.full_name && student.full_name.toLowerCase().includes(searchTerm)) ||
-                    (student.number && student.number.toLowerCase().includes(searchTerm)) ||
-                    (student.registration_number && student.registration_number.toLowerCase().includes(searchTerm))
-                );
-            }
-
-            // Apply type filter
-            if (filterType === 'today') {
-                const today = new Date().toISOString().split('T')[0];
-                filtered = filtered.filter(student => 
-                    student.registered_at && student.registered_at.startsWith(today)
-                );
-            } else if (filterType === 'week') {
-                const weekAgo = new Date();
-                weekAgo.setDate(weekAgo.getDate() - 7);
-                filtered = filtered.filter(student => 
-                    student.registered_at && new Date(student.registered_at) > weekAgo
-                );
-            } else if (filterType === 'registered') {
-                filtered = filtered.filter(student => 
-                    student.registration_number && student.registration_number !== 'N/A'
-                );
-            } else if (filterType === 'pending') {
-                filtered = filtered.filter(student => 
-                    !student.registration_number || student.registration_number === 'N/A'
-                );
-            }
-
-            renderStudentsTable(filtered);
-        }
-
-        // Filter exams
-        function filterExams() {
-            const searchTerm = document.getElementById('examSearch').value.toLowerCase();
-            const filterType = document.getElementById('examFilter').value;
-
-            let filtered = [...allExamResults];
-
-            // Apply search filter
-            if (searchTerm) {
-                filtered = filtered.filter(exam => 
-                    (exam.student_name && exam.student_name.toLowerCase().includes(searchTerm)) ||
-                    (exam.exam_title && exam.exam_title.toLowerCase().includes(searchTerm)) ||
-                    (exam.course && exam.course.toLowerCase().includes(searchTerm))
-                );
-            }
-
-            // Apply type filter
-            if (filterType === 'passed') {
-                filtered = filtered.filter(exam => exam.passed === true);
-            } else if (filterType === 'failed') {
-                filtered = filtered.filter(exam => exam.passed === false);
-            } else if (filterType === '90+') {
-                filtered = filtered.filter(exam => (exam.score || 0) >= 90);
-            } else if (filterType === 'today') {
-                const today = new Date().toISOString().split('T')[0];
-                filtered = filtered.filter(exam => 
-                    exam.completed_at && exam.completed_at.startsWith(today)
-                );
-            }
-
-            renderExamsTable(filtered);
-        }
-
-        // Filter exams by score
-        function filterExamsByScore() {
-            document.getElementById('examFilter').value = '90+';
-            document.getElementById('examSearch').value = '';
-            filterExams();
-        }
-
-        // Modal functions
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-        }
-
-        // Utility functions
-        function escapeHtml(text) {
-            if (!text) return '';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        function truncateText(text, maxLength) {
-            if (!text) return '';
-            return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
-        }
-
-        function formatDate(dateString) {
-            if (!dateString) return 'N/A';
-            const date = new Date(dateString);
-            return date.toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric'
-            });
-        }
-
-        function formatTimeAgo(dateString) {
-            if (!dateString) return 'Unknown';
-            
-            const date = new Date(dateString);
-            const now = new Date();
-            const diffMs = now - date;
-            const diffMins = Math.floor(diffMs / 60000);
-            const diffHours = Math.floor(diffMs / 3600000);
-            const diffDays = Math.floor(diffMs / 86400000);
-            
-            if (diffMins < 1) return 'Just now';
-            if (diffMins < 60) return `${diffMins}m ago`;
-            if (diffHours < 24) return `${diffHours}h ago`;
-            if (diffDays < 7) return `${diffDays}d ago`;
-            
-            return formatDate(dateString);
-        }
-
-        function showNotification(message, type = 'info') {
-            // Remove existing notification
-            const existing = document.querySelector('.notification');
-            if (existing) existing.remove();
-
-            const colors = {
-                success: 'var(--secondary)',
-                error: 'var(--danger)',
-                info: 'var(--primary)',
-                warning: 'var(--warning)'
-            };
-
-            const icons = {
-                success: 'fa-check-circle',
-                error: 'fa-exclamation-circle',
-                info: 'fa-info-circle',
-                warning: 'fa-exclamation-triangle'
-            };
-
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.style.background = colors[type];
-            notification.innerHTML = `
-                <i class="fas ${icons[type]}"></i>
-                <span>${message}</span>
-            `;
-
-            document.body.appendChild(notification);
-
-            // Auto-remove after 4 seconds
-            setTimeout(() => {
-                notification.style.animation = 'slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) reverse';
-                setTimeout(() => notification.remove(), 400);
-            }, 4000);
-        }
-
-        // Export data
-        function exportData() {
-            showNotification('Export feature coming soon!', 'info');
-        }
-
-        function generateReport() {
-            showNotification('Report generation feature coming soon!', 'info');
         }
 
         // Initialize everything
