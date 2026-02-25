@@ -3,40 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Charles Academy - Advanced Management System</title>
+    <title>Charles Academy - Live Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <style>
-        /* Modern Variables */
         :root {
             --primary: #0088cc;
             --primary-dark: #006699;
-            --primary-light: #4db8ff;
             --secondary: #00a884;
             --secondary-dark: #00866a;
-            --secondary-light: #33ccaa;
             --danger: #eb4d4b;
-            --danger-light: #ff6b6b;
             --warning: #f9ca24;
-            --warning-light: #fad859;
             --success: #2ecc71;
-            --success-light: #54e68b;
             --dark: #0e1621;
             --dark-light: #17212b;
             --darker: #0a1018;
             --text: #ffffff;
             --text-secondary: #8f98a3;
-            --text-muted: #6b7a8d;
             --border: #2b2b2b;
-            --border-light: #3a3a4a;
-            --shadow: 0 8px 30px rgba(0,0,0,0.3);
-            --shadow-hover: 0 15px 40px rgba(0,0,0,0.4);
-            --gradient-primary: linear-gradient(135deg, var(--primary), var(--secondary));
-            --gradient-danger: linear-gradient(135deg, var(--danger), var(--danger-light));
-            --gradient-success: linear-gradient(135deg, var(--success), var(--success-light));
             
+            /* Responsive units - Kuboreshwa kwa mobile */
             --header-height: clamp(50px, 7vh, 70px);
             --nav-height: clamp(50px, 7vh, 60px);
             --font-base: clamp(14px, 1vw, 16px);
@@ -66,7 +52,6 @@
             font-size: var(--font-base);
             height: 100%;
             overflow-x: hidden;
-            scroll-behavior: smooth;
         }
 
         body {
@@ -77,28 +62,9 @@
             min-height: 100vh;
             padding-bottom: var(--nav-height);
             position: relative;
-            background-image: radial-gradient(circle at 10% 20%, rgba(0, 136, 204, 0.05) 0%, transparent 20%);
         }
 
-        /* Modern Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--dark-light);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-light);
-        }
-
+        /* Container System - Kuboreshwa kwa spacing */
         .container {
             width: 100%;
             max-width: 1920px;
@@ -118,38 +84,19 @@
             }
         }
 
-        /* Glassmorphism Effects */
-        .glass-effect {
-            background: rgba(23, 33, 43, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        /* Header with Animation */
+        /* Header - Kuboreshwa kwa mobile */
         .header {
             background: linear-gradient(135deg, var(--dark-light), var(--darker));
             border-radius: var(--border-radius-xl);
             padding: var(--spacing-lg);
             margin-bottom: var(--spacing-lg);
             border: 1px solid var(--border);
-            box-shadow: var(--shadow);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
             display: flex;
             flex-direction: column;
             gap: var(--spacing-md);
             position: relative;
             overflow: hidden;
-            animation: slideDown 0.5s ease-out;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         @media (min-width: 768px) {
@@ -168,46 +115,24 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: var(--gradient-primary);
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
-        }
-
-        .header::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            opacity: 0.5;
-            pointer-events: none;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
         }
 
         .header-left {
             flex: 1;
-            min-width: 0;
-            position: relative;
-            z-index: 1;
+            min-width: 0; /* Allows text truncation */
         }
 
         .header-left h1 {
             font-size: var(--font-xlarge);
             font-weight: 800;
-            background: var(--gradient-primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: var(--spacing-xs);
             line-height: 1.2;
             word-wrap: break-word;
             overflow-wrap: break-word;
-            text-shadow: 0 2px 4px rgba(0,136,204,0.2);
         }
 
         .header-left p {
@@ -228,13 +153,6 @@
             backdrop-filter: blur(10px);
             flex-wrap: wrap;
             flex-shrink: 0;
-            animation: pulseGlow 2s infinite;
-        }
-
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 0 0 rgba(0,168,132,0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(0,168,132,0); }
-            100% { box-shadow: 0 0 0 0 rgba(0,168,132,0); }
         }
 
         @media (min-width: 768px) {
@@ -259,7 +177,7 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
-        /* Stats Grid with Hover Effects */
+        /* Stats Grid - Improved for mobile */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
@@ -275,6 +193,7 @@
             }
         }
 
+        /* Stat Card - Touch Optimized */
         .stat-card {
             background: var(--dark-light);
             border-radius: var(--border-radius-lg);
@@ -289,24 +208,6 @@
             flex-direction: column;
             justify-content: space-between;
             gap: var(--spacing-sm);
-            animation: fadeInUp 0.5s ease-out forwards;
-            opacity: 0;
-        }
-
-        .stat-card:nth-child(1) { animation-delay: 0.1s; }
-        .stat-card:nth-child(2) { animation-delay: 0.2s; }
-        .stat-card:nth-child(3) { animation-delay: 0.3s; }
-        .stat-card:nth-child(4) { animation-delay: 0.4s; }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         @media (max-width: 480px) {
@@ -322,8 +223,8 @@
 
         @media (hover: hover) and (pointer: fine) {
             .stat-card:hover {
-                transform: translateY(-5px);
-                box-shadow: var(--shadow-hover);
+                transform: translateY(-3px);
+                box-shadow: 0 15px 30px rgba(0,0,0,0.4);
                 border-color: var(--primary);
             }
         }
@@ -340,25 +241,8 @@
             transition: opacity 0.3s;
         }
 
-        .stat-card:hover::before {
+        .stat-card:active::before {
             opacity: 1;
-        }
-
-        .stat-card::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-        }
-
-        .stat-card:hover::after {
-            opacity: 0.5;
         }
 
         .stat-header {
@@ -381,7 +265,7 @@
         .stat-icon {
             width: clamp(40px, 6vw, 50px);
             height: clamp(40px, 6vw, 50px);
-            background: var(--gradient-primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: var(--border-radius);
             display: flex;
             align-items: center;
@@ -391,11 +275,6 @@
             box-shadow: 0 8px 16px rgba(0,136,204,0.3);
             flex-shrink: 0;
             margin-left: var(--spacing-sm);
-            transition: transform 0.3s;
-        }
-
-        .stat-card:hover .stat-icon {
-            transform: rotate(5deg) scale(1.1);
         }
 
         @media (max-width: 480px) {
@@ -412,11 +291,6 @@
             color: var(--text);
             line-height: 1;
             margin: var(--spacing-xs) 0;
-            transition: color 0.3s;
-        }
-
-        .stat-card:hover .stat-value {
-            color: var(--primary-light);
         }
 
         .stats-detail {
@@ -439,30 +313,12 @@
 
         .progress-fill {
             height: 100%;
-            background: var(--gradient-primary);
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
             border-radius: 2px;
             transition: width 1s ease;
-            position: relative;
-            overflow: hidden;
         }
 
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shimmerProgress 2s infinite;
-        }
-
-        @keyframes shimmerProgress {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        /* Content Grid */
+        /* Content Grid - Adaptive Layout */
         .content-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -482,21 +338,9 @@
             border-radius: var(--border-radius-lg);
             padding: var(--spacing-lg);
             border: 1px solid var(--border);
-            box-shadow: var(--shadow);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
             width: 100%;
             overflow: hidden;
-            transition: all 0.3s;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .section:hover {
-            border-color: var(--primary);
-            box-shadow: 0 8px 30px rgba(0,136,204,0.1);
         }
 
         @media (max-width: 768px) {
@@ -511,25 +355,7 @@
             gap: var(--spacing-md);
             margin-bottom: var(--spacing-lg);
             padding-bottom: var(--spacing-md);
-            border-bottom: 2px solid var(--gradient-primary);
-            position: relative;
-        }
-
-        .section-header::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100px;
-            height: 2px;
-            background: var(--gradient-primary);
-            animation: slideWidth 2s infinite;
-        }
-
-        @keyframes slideWidth {
-            0% { width: 50px; opacity: 1; }
-            50% { width: 100px; opacity: 0.7; }
-            100% { width: 50px; opacity: 1; }
+            border-bottom: 1px solid var(--border);
         }
 
         @media (min-width: 768px) {
@@ -554,15 +380,9 @@
         .section-title i {
             color: var(--primary);
             font-size: 1.1em;
-            animation: bounce 2s infinite;
         }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-3px); }
-        }
-
-        /* Table Container */
+        /* Tables - Scrollable on Mobile */
         .table-container {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
@@ -572,11 +392,6 @@
             margin: 0;
             width: 100%;
             position: relative;
-            transition: all 0.3s;
-        }
-
-        .table-container:hover {
-            border-color: var(--primary-light);
         }
 
         table {
@@ -605,7 +420,7 @@
             font-size: clamp(11px, 0.8vw, 13px);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            border-bottom: 2px solid var(--gradient-primary);
+            border-bottom: 2px solid var(--border);
             white-space: nowrap;
         }
 
@@ -619,47 +434,17 @@
             padding: var(--spacing-md);
             border-bottom: 1px solid rgba(255,255,255,0.05);
             vertical-align: middle;
-            transition: background-color 0.2s;
         }
 
         tbody tr {
             transition: all 0.2s;
-            cursor: pointer;
-            animation: fadeInRow 0.3s ease-out forwards;
-            opacity: 0;
-        }
-
-        tbody tr:nth-child(1) { animation-delay: 0.05s; }
-        tbody tr:nth-child(2) { animation-delay: 0.1s; }
-        tbody tr:nth-child(3) { animation-delay: 0.15s; }
-        tbody tr:nth-child(4) { animation-delay: 0.2s; }
-        tbody tr:nth-child(5) { animation-delay: 0.25s; }
-        tbody tr:nth-child(6) { animation-delay: 0.3s; }
-        tbody tr:nth-child(7) { animation-delay: 0.35s; }
-        tbody tr:nth-child(8) { animation-delay: 0.4s; }
-        tbody tr:nth-child(9) { animation-delay: 0.45s; }
-        tbody tr:nth-child(10) { animation-delay: 0.5s; }
-
-        @keyframes fadeInRow {
-            from {
-                opacity: 0;
-                transform: translateX(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
         }
 
         tbody tr:active {
             background: rgba(255,255,255,0.03);
         }
 
-        tbody tr:hover {
-            background: rgba(0,136,204,0.1);
-        }
-
-        /* Action Buttons */
+        /* Action Buttons - Touch Friendly */
         .action-btn {
             padding: var(--spacing-sm) var(--spacing-md);
             border-radius: var(--border-radius);
@@ -670,30 +455,10 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            transition: all 0.3s;
+            transition: all 0.2s;
             touch-action: manipulation;
             min-height: 40px;
             min-width: 40px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .action-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.2);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .action-btn:hover::before {
-            width: 200px;
-            height: 200px;
         }
 
         .action-btn:active {
@@ -712,33 +477,6 @@
             border: 1px solid rgba(235,77,75,0.3);
         }
 
-        .btn-delete:hover {
-            background: rgba(235,77,75,0.25);
-            border-color: var(--danger);
-        }
-
-        .btn-download {
-            background: rgba(0,168,132,0.15);
-            color: var(--secondary);
-            border: 1px solid rgba(0,168,132,0.3);
-        }
-
-        .btn-download:hover {
-            background: rgba(0,168,132,0.25);
-            border-color: var(--secondary);
-        }
-
-        .btn-pdf {
-            background: rgba(249,202,36,0.15);
-            color: var(--warning);
-            border: 1px solid rgba(249,202,36,0.3);
-        }
-
-        .btn-pdf:hover {
-            background: rgba(249,202,36,0.25);
-            border-color: var(--warning);
-        }
-
         /* Badges */
         .badge {
             padding: 4px 10px;
@@ -750,11 +488,6 @@
             gap: 4px;
             white-space: nowrap;
             flex-shrink: 0;
-            transition: all 0.3s;
-        }
-
-        .badge:hover {
-            transform: scale(1.05);
         }
 
         .badge-success {
@@ -781,7 +514,7 @@
             border: 1px solid rgba(0, 136, 204, 0.3);
         }
 
-        /* Controls */
+        /* Controls - Search & Filters */
         .controls {
             display: flex;
             flex-direction: column;
@@ -820,7 +553,7 @@
         .search-box:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0,136,204,0.2);
+            box-shadow: 0 0 0 2px rgba(0,136,204,0.1);
         }
 
         .filter-select {
@@ -833,11 +566,6 @@
             cursor: pointer;
             min-height: 44px;
             width: 100%;
-            transition: all 0.3s;
-        }
-
-        .filter-select:hover {
-            border-color: var(--primary);
         }
 
         @media (min-width: 480px) {
@@ -854,46 +582,7 @@
             }
         }
 
-        /* Date Filter */
-        .date-filter-group {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-sm);
-            background: rgba(255,255,255,0.02);
-            padding: var(--spacing-md);
-            border-radius: var(--border-radius);
-            border: 1px solid var(--border);
-            margin-bottom: var(--spacing-lg);
-        }
-
-        @media (min-width: 768px) {
-            .date-filter-group {
-                flex-direction: row;
-                align-items: center;
-                flex-wrap: wrap;
-            }
-        }
-
-        .date-input {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border);
-            border-radius: var(--border-radius);
-            padding: var(--spacing-sm) var(--spacing-md);
-            color: var(--text);
-            font-size: clamp(13px, 0.9vw, 15px);
-            min-height: 40px;
-            flex: 1;
-            min-width: 140px;
-            transition: all 0.3s;
-        }
-
-        .date-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0,136,204,0.2);
-        }
-
-        /* Student Cell */
+        /* Student Cell - Compact on Mobile */
         .student-cell {
             display: flex;
             align-items: center;
@@ -905,7 +594,7 @@
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            background: var(--gradient-primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -913,12 +602,6 @@
             font-weight: 700;
             font-size: clamp(12px, 0.9vw, 14px);
             flex-shrink: 0;
-            transition: all 0.3s;
-        }
-
-        .student-avatar:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 20px var(--primary);
         }
 
         @media (min-width: 768px) {
@@ -930,7 +613,7 @@
         }
 
         .student-info {
-            min-width: 0;
+            min-width: 0; /* Allows text truncation */
         }
 
         .student-info h4 {
@@ -943,11 +626,6 @@
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
-            transition: color 0.3s;
-        }
-
-        tr:hover .student-info h4 {
-            color: var(--primary-light);
         }
 
         .student-info p {
@@ -958,124 +636,20 @@
             white-space: nowrap;
         }
 
-        /* Pagination Styles - NEW */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: var(--spacing-xs);
-            margin-top: var(--spacing-lg);
-            flex-wrap: wrap;
-            padding: var(--spacing-sm);
-        }
-
-        .pagination-btn {
-            min-width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border);
-            border-radius: var(--border-radius);
-            color: var(--text);
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            padding: 0 var(--spacing-sm);
-        }
-
-        .pagination-btn:hover:not(:disabled) {
-            background: var(--primary);
-            border-color: var(--primary);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,136,204,0.3);
-        }
-
-        .pagination-btn.active {
-            background: var(--gradient-primary);
-            border-color: var(--primary);
-            box-shadow: 0 0 15px var(--primary);
-        }
-
-        .pagination-btn:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-
-        .pagination-info {
-            color: var(--text-secondary);
-            font-size: 13px;
-            margin: 0 var(--spacing-sm);
-        }
-
-        /* Rows per page selector */
-        .rows-per-page {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-            color: var(--text-secondary);
-            font-size: 13px;
-        }
-
-        .rows-per-page select {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border);
-            border-radius: var(--border-radius);
-            padding: var(--spacing-xs) var(--spacing-sm);
-            color: var(--text);
-            font-size: 13px;
-            cursor: pointer;
-            min-width: 70px;
-        }
-
-        .rows-per-page select:hover {
-            border-color: var(--primary);
-        }
-
-        /* Table footer with pagination */
-        .table-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: var(--spacing-md);
-            margin-top: var(--spacing-md);
-            padding: var(--spacing-sm);
-            background: rgba(0,0,0,0.2);
-            border-radius: var(--border-radius);
-            border: 1px solid var(--border);
-        }
-
-        @media (max-width: 768px) {
-            .table-footer {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .pagination {
-                order: -1;
-            }
-        }
-
         /* Performance Chart */
         .performance-chart {
             height: 200px;
             width: 100%;
             position: relative;
-            background: rgba(0,0,0,0.2);
-            border-radius: var(--border-radius);
-            padding: var(--spacing-sm);
         }
 
-        /* Notification */
+        /* Notification - Mobile Optimized */
         .notification {
             position: fixed;
             top: 20px;
             right: 20px;
             left: 20px;
-            background: var(--gradient-primary);
+            background: var(--secondary);
             color: white;
             padding: var(--spacing-md);
             border-radius: var(--border-radius);
@@ -1100,16 +674,16 @@
 
         @keyframes slideIn {
             from {
-                transform: translateY(-100%) scale(0.8);
+                transform: translateY(-100%);
                 opacity: 0;
             }
             to {
-                transform: translateY(0) scale(1);
+                transform: translateY(0);
                 opacity: 1;
             }
         }
 
-        /* Modal */
+        /* Modal - Fullscreen on Mobile */
         .modal {
             display: none;
             position: fixed;
@@ -1124,7 +698,6 @@
             backdrop-filter: blur(5px);
             padding: var(--spacing-md);
             overflow-y: auto;
-            animation: fadeIn 0.3s;
         }
 
         @media (min-width: 768px) {
@@ -1147,18 +720,6 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             max-height: 90vh;
             overflow-y: auto;
-            animation: scaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        @keyframes scaleIn {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
         }
 
         .modal-header {
@@ -1197,14 +758,9 @@
             margin-left: var(--spacing-sm);
         }
 
-        .modal-close:hover {
+        .modal-close:active {
             background: rgba(255,255,255,0.05);
             color: var(--text);
-            transform: rotate(90deg);
-        }
-
-        .modal-close:active {
-            background: rgba(255,255,255,0.1);
         }
 
         /* Form Elements */
@@ -1242,7 +798,7 @@
         .form-input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0,136,204,0.2);
+            box-shadow: 0 0 0 2px rgba(0,136,204,0.1);
         }
 
         .modal-actions {
@@ -1258,9 +814,9 @@
             }
         }
 
-        /* Buttons */
+        /* Buttons - Touch Optimized */
         .btn {
-            background: var(--gradient-primary);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
             border: none;
             padding: var(--spacing-md) var(--spacing-lg);
@@ -1278,26 +834,6 @@
             min-height: 44px;
             text-align: center;
             width: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.2);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .btn:hover::before {
-            width: 200px;
-            height: 200px;
         }
 
         @media (min-width: 480px) {
@@ -1322,27 +858,12 @@
             border: 1px solid var(--border);
         }
 
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.15);
-            border-color: var(--text);
+        /* Main Action Buttons - IMEREMOVED */
+        .main-actions {
+            display: none;
         }
 
-        .btn-danger {
-            background: var(--gradient-danger);
-            color: white;
-        }
-
-        .btn-success {
-            background: var(--gradient-success);
-            color: white;
-        }
-
-        .btn-warning {
-            background: linear-gradient(135deg, var(--warning), var(--warning-light));
-            color: var(--dark);
-        }
-
-        /* Bottom Navigation */
+        /* Bottom Navigation - Mobile Only */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -1357,16 +878,6 @@
             z-index: 1000;
             height: var(--nav-height);
             backdrop-filter: blur(10px);
-            animation: slideUp 0.3s;
-        }
-
-        @keyframes slideUp {
-            from {
-                transform: translateY(100%);
-            }
-            to {
-                transform: translateY(0);
-            }
         }
 
         @media (min-width: 768px) {
@@ -1390,24 +901,11 @@
             min-width: 56px;
             min-height: 44px;
             flex: 1;
-            position: relative;
-            overflow: hidden;
         }
 
         .nav-item.active {
             color: var(--primary);
             background: rgba(0,136,204,0.1);
-        }
-
-        .nav-item.active::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--gradient-primary);
-            animation: slideWidth 2s infinite;
         }
 
         .nav-item:active {
@@ -1477,6 +975,7 @@
             animation: spin 1s linear infinite;
         }
 
+        /* Responsive Typography */
         .timestamp {
             font-size: clamp(11px, 0.8vw, 13px);
             color: var(--text-secondary);
@@ -1508,6 +1007,7 @@
         /* Print Styles */
         @media print {
             .bottom-nav,
+            .main-actions,
             .modal,
             .notification {
                 display: none !important;
@@ -1541,6 +1041,7 @@
             }
         }
 
+        /* Timestamp styling */
         #dataTimestamp {
             font-family: 'Courier New', monospace;
             font-size: clamp(11px, 0.8vw, 13px);
@@ -1548,6 +1049,7 @@
             font-weight: 600;
         }
 
+        /* Compact table styling for mobile */
         @media (max-width: 767px) {
             .compact-view td:nth-child(5),
             .compact-view td:nth-child(6) {
@@ -1558,88 +1060,6 @@
             .compact-view th:nth-child(6) {
                 display: none;
             }
-        }
-
-        .detail-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--spacing-md);
-            margin: var(--spacing-md) 0;
-        }
-
-        .detail-item {
-            background: rgba(255,255,255,0.03);
-            padding: var(--spacing-md);
-            border-radius: var(--border-radius);
-            border: 1px solid var(--border);
-        }
-
-        .detail-label {
-            color: var(--text-secondary);
-            font-size: 11px;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-        }
-
-        .detail-value {
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .answers-container {
-            background: rgba(255,255,255,0.03);
-            padding: var(--spacing-md);
-            border-radius: var(--border-radius);
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .answer-item {
-            padding: var(--spacing-sm);
-            border-bottom: 1px solid var(--border);
-            font-size: 12px;
-        }
-
-        .answer-item:last-child {
-            border-bottom: none;
-        }
-
-        .download-preview {
-            background: rgba(255,255,255,0.03);
-            padding: var(--spacing-md);
-            border-radius: var(--border-radius);
-            max-height: 400px;
-            overflow-y: auto;
-            font-family: monospace;
-            font-size: 12px;
-            white-space: pre-wrap;
-            margin: var(--spacing-md) 0;
-        }
-
-        .day-category {
-            margin-bottom: var(--spacing-lg);
-            border: 1px solid var(--border);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-        }
-
-        .day-header {
-            background: var(--gradient-primary);
-            padding: var(--spacing-md);
-            font-weight: 600;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .day-content {
-            padding: var(--spacing-md);
-            background: rgba(255,255,255,0.02);
-        }
-
-        .day-actions {
-            display: flex;
-            gap: var(--spacing-sm);
         }
     </style>
 </head>
@@ -1653,8 +1073,8 @@
         <!-- Header -->
         <div class="header">
             <div class="header-left">
-                <h1><i class="fas fa-graduation-cap"></i> Charles Academy - Advanced System</h1>
-                <p>PDF Download • Pagination • Date Filter • <span id="dataTimestamp">Loading...</span></p>
+                <h1><i class="fas fa-graduation-cap"></i> Charles Academy Dashboard</h1>
+                <p>Live Analytics • Real-time Monitoring • <span id="dataTimestamp">Loading...</span></p>
             </div>
             <div class="connection-status">
                 <span class="status-dot"></span>
@@ -1674,49 +1094,9 @@
             </div>
         </div>
 
-        <!-- Date Filter Section -->
-        <div class="section">
-            <div class="section-header">
-                <div class="section-title">
-                    <i class="fas fa-calendar-alt"></i>
-                    Filter Results by Date
-                </div>
-            </div>
-            <div class="date-filter-group">
-                <input type="date" class="date-input" id="startDate" placeholder="Start Date">
-                <input type="date" class="date-input" id="endDate" placeholder="End Date">
-                <select class="filter-select" id="dateFilterType">
-                    <option value="completed_at">Exam Date (completed_at)</option>
-                    <option value="registered_at">Registration Date (registered_at)</option>
-                </select>
-                <button class="btn" onclick="filterByDate()" style="flex: 0 0 auto;">
-                    <i class="fas fa-filter"></i> Filter
-                </button>
-                <button class="btn-secondary" onclick="clearDateFilter()">
-                    <i class="fas fa-times"></i> Clear
-                </button>
-            </div>
-
-            <!-- Action Buttons for Date Range -->
-            <div style="display: flex; gap: var(--spacing-sm); flex-wrap: wrap; margin-top: var(--spacing-md);">
-                <button class="btn-success" onclick="downloadFilteredDataPDF()">
-                    <i class="fas fa-file-pdf"></i> Download as PDF
-                </button>
-                <button class="btn-danger" onclick="deleteFilteredData()">
-                    <i class="fas fa-trash"></i> Delete Results
-                </button>
-                <button class="btn-secondary" onclick="exportFilteredCSV()">
-                    <i class="fas fa-file-csv"></i> Export as CSV
-                </button>
-                <button class="btn-secondary" onclick="exportFilteredJSON()">
-                    <i class="fas fa-file-code"></i> Export as JSON
-                </button>
-            </div>
-        </div>
-
         <!-- Main Content Grid -->
         <div class="content-grid">
-            <!-- Students Section with Pagination -->
+            <!-- Students Section -->
             <div class="section">
                 <div class="section-header">
                     <div class="section-title">
@@ -1725,7 +1105,7 @@
                         <span class="badge badge-info" id="studentsCount">0</span>
                     </div>
                     <div class="controls">
-                        <input type="text" class="search-box" placeholder="Search students..." id="studentSearch" onkeyup="filterStudents()">
+                        <input type="text" class="search-box" placeholder="Search students..." id="studentSearch">
                         <select class="filter-select" id="studentFilter" onchange="filterStudents()">
                             <option value="all">All Students</option>
                             <option value="today">Today</option>
@@ -1752,24 +1132,9 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- Students Pagination -->
-                <div class="table-footer">
-                    <div class="rows-per-page">
-                        <span>Rows per page:</span>
-                        <select id="studentsPerPage" onchange="changeStudentsPerPage()">
-                            <option value="5">5</option>
-                            <option value="10" selected>10</option>
-                            <option value="20">20</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select>
-                    </div>
-                    <div class="pagination" id="studentsPagination"></div>
-                    <div class="pagination-info" id="studentsPaginationInfo"></div>
-                </div>
             </div>
 
-            <!-- Exams Section with Pagination -->
+            <!-- Exams Section -->
             <div class="section">
                 <div class="section-header">
                     <div class="section-title">
@@ -1778,7 +1143,7 @@
                         <span class="badge badge-info" id="examsCount">0</span>
                     </div>
                     <div class="controls">
-                        <input type="text" class="search-box" placeholder="Search exams..." id="examSearch" onkeyup="filterExams()">
+                        <input type="text" class="search-box" placeholder="Search exams..." id="examSearch">
                         <select class="filter-select" id="examFilter" onchange="filterExams()">
                             <option value="all">All Results</option>
                             <option value="passed">Passed</option>
@@ -1805,45 +1170,6 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- Exams Pagination -->
-                <div class="table-footer">
-                    <div class="rows-per-page">
-                        <span>Rows per page:</span>
-                        <select id="examsPerPage" onchange="changeExamsPerPage()">
-                            <option value="5">5</option>
-                            <option value="10" selected>10</option>
-                            <option value="20">20</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select>
-                    </div>
-                    <div class="pagination" id="examsPagination"></div>
-                    <div class="pagination-info" id="examsPaginationInfo"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Results by Day Category -->
-        <div class="section">
-            <div class="section-header">
-                <div class="section-title">
-                    <i class="fas fa-calendar-day"></i>
-                    Results by Day
-                    <span class="badge badge-info" id="daysCount">0</span>
-                </div>
-                <div class="controls">
-                    <select class="filter-select" id="dayFilter" onchange="filterByDayCategory()">
-                        <option value="all">All Days</option>
-                        <option value="today">Today</option>
-                        <option value="yesterday">Yesterday</option>
-                        <option value="thisweek">This Week</option>
-                        <option value="lastweek">Last Week</option>
-                        <option value="thismonth">This Month</option>
-                    </select>
-                </div>
-            </div>
-            <div id="dayCategoriesContainer">
-                <!-- Day categories will be loaded here -->
             </div>
         </div>
 
@@ -1854,7 +1180,7 @@
                     <i class="fas fa-chart-line"></i>
                     Performance Analytics
                 </div>
-                <button class="btn-secondary" onclick="exportAnalytics()" style="min-height: 36px; padding: 8px 16px;">
+                <button class="btn-secondary" onclick="exportData()" style="min-height: 36px; padding: 8px 16px;">
                     <i class="fas fa-download"></i>
                     <span class="mobile-hidden">Export</span>
                 </button>
@@ -1888,51 +1214,7 @@
         </div>
     </div>
 
-    <!-- Student Details Modal -->
-    <div class="modal" id="studentDetailsModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Student Exam Details</h3>
-                <button class="modal-close" onclick="closeModal('studentDetailsModal')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div id="studentDetailsContent">
-                <!-- Content will be loaded dynamically -->
-            </div>
-            <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeModal('studentDetailsModal')">Close</button>
-                <button class="btn-success" onclick="downloadStudentDetailsPDF()">
-                    <i class="fas fa-file-pdf"></i> Download PDF
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delete Confirmation Modal -->
-    <div class="modal" id="deleteConfirmModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Confirm Delete</h3>
-                <button class="modal-close" onclick="closeModal('deleteConfirmModal')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div style="text-align: center; padding: var(--spacing-lg);">
-                <i class="fas fa-exclamation-triangle" style="font-size: 48px; color: var(--warning); margin-bottom: var(--spacing-md);"></i>
-                <p id="deleteMessage" style="margin-bottom: var(--spacing-lg);">Are you sure you want to delete these results?</p>
-                <p class="timestamp" id="deleteDetails"></p>
-            </div>
-            <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeModal('deleteConfirmModal')">Cancel</button>
-                <button class="btn-danger" onclick="confirmDelete()">
-                    <i class="fas fa-trash"></i> Delete Permanently
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Edit Student Modal -->
+    <!-- Edit Student Modal ONLY - Add Student Modal removed -->
     <div class="modal" id="editStudentModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1966,7 +1248,7 @@
                 <div class="modal-actions">
                     <button type="button" class="btn btn-secondary" onclick="closeModal('editStudentModal')">Cancel</button>
                     <button type="button" class="btn" onclick="deleteStudent()" style="background: rgba(235,77,75,0.2); color: var(--danger); border-color: rgba(235,77,75,0.5);">
-                        <i class="fas fa-trash"></i> Delete Student
+                        <i class="fas fa-trash"></i> Delete
                     </button>
                     <button type="submit" class="btn">
                         <i class="fas fa-save"></i> Update
@@ -1986,10 +1268,7 @@
             <i class="fas fa-users"></i>
             <span>Students</span>
         </a>
-        <a href="#" class="nav-item" onclick="showDateFilter()">
-            <i class="fas fa-calendar"></i>
-            <span>Date</span>
-        </a>
+       
         <a href="#" class="nav-item" onclick="loadAllData()">
             <i class="fas fa-sync-alt"></i>
             <span>Refresh</span>
@@ -2019,71 +1298,54 @@
         // Global state
         let allStudents = [];
         let allExamResults = [];
-        let filteredStudents = [];
-        let filteredExams = [];
-        let filteredResults = [];
         let performanceChart = null;
         let currentStudentId = null;
-        let currentDeleteData = null;
-        let currentStudentDetails = null;
         let touchStartY = 0;
         let isRefreshing = false;
 
-        // Pagination state
-        let studentsPage = 1;
-        let examsPage = 1;
-        let studentsPerPage = 10;
-        let examsPerPage = 10;
-
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', async () => {
-            console.log('🚀 Initializing Advanced Management System...');
+            console.log('🚀 Initializing Responsive Dashboard...');
             
+            // Setup event listeners
             setupEventListeners();
+            
+            // Test connection first
             await testConnection();
+            
+            // Load all data
             await loadAllData();
+            
+            // Setup auto-refresh
             setupAutoRefresh();
+            
+            // Setup pull-to-refresh
             setupPullToRefresh();
+            
+            // Setup keyboard shortcuts
             setupKeyboardShortcuts();
-            setDefaultDates();
             
-            console.log('✅ System initialized successfully!');
+            console.log('✅ Dashboard initialized successfully!');
         });
-
-        // Set default dates
-        function setDefaultDates() {
-            const today = new Date();
-            const thirtyDaysAgo = new Date();
-            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-            
-            document.getElementById('endDate').value = today.toISOString().split('T')[0];
-            document.getElementById('startDate').value = thirtyDaysAgo.toISOString().split('T')[0];
-        }
-
-        // Show date filter on mobile
-        function showDateFilter() {
-            document.querySelector('.date-filter-group').scrollIntoView({ behavior: 'smooth' });
-        }
 
         // Setup event listeners
         function setupEventListeners() {
+            // Student search
             const studentSearch = document.getElementById('studentSearch');
-            studentSearch.addEventListener('input', debounce(() => {
-                studentsPage = 1;
-                filterStudents();
-            }, 300));
+            studentSearch.addEventListener('input', debounce(() => filterStudents(), 300));
 
+            // Exam search
             const examSearch = document.getElementById('examSearch');
-            examSearch.addEventListener('input', debounce(() => {
-                examsPage = 1;
-                filterExams();
-            }, 300));
+            examSearch.addEventListener('input', debounce(() => filterExams(), 300));
 
+            // Window resize handling
             window.addEventListener('resize', debounce(handleResize, 250));
 
+            // Touch events for mobile
             document.addEventListener('touchstart', handleTouchStart);
             document.addEventListener('touchend', handleTouchEnd);
 
+            // Prevent zoom on double-tap
             let lastTouchEnd = 0;
             document.addEventListener('touchend', (event) => {
                 const now = Date.now();
@@ -2096,6 +1358,7 @@
 
         // Setup auto-refresh
         function setupAutoRefresh() {
+            // Auto-refresh every 30 seconds when visible
             setInterval(() => {
                 if (document.visibilityState === 'visible' && !isRefreshing) {
                     loadStats();
@@ -2103,6 +1366,7 @@
                 }
             }, 30000);
 
+            // Refresh when tab becomes visible
             document.addEventListener('visibilitychange', () => {
                 if (document.visibilityState === 'visible') {
                     loadStats();
@@ -2167,11 +1431,13 @@
         // Setup keyboard shortcuts
         function setupKeyboardShortcuts() {
             document.addEventListener('keydown', (e) => {
+                // Ctrl/Cmd + R to refresh
                 if ((e.ctrlKey || e.metaKey) && e.key === 'r') {
                     e.preventDefault();
                     loadAllData();
                 }
                 
+                // Esc to close modals
                 if (e.key === 'Escape') {
                     closeAllModals();
                 }
@@ -2180,10 +1446,12 @@
 
         // Handle resize
         function handleResize() {
+            // Update chart if it exists
             if (performanceChart) {
                 performanceChart.resize();
             }
             
+            // Hide/show mobile elements
             const mobileHidden = document.querySelectorAll('.mobile-hidden');
             if (window.innerWidth < 768) {
                 mobileHidden.forEach(el => el.style.display = 'none');
@@ -2202,6 +1470,7 @@
             const touchEndY = e.changedTouches[0].clientY;
             const deltaY = touchEndY - touchStartY;
             
+            // Swipe down to refresh (only at top)
             if (window.scrollY === 0 && deltaY > 100 && !isRefreshing) {
                 isRefreshing = true;
                 loadAllData().finally(() => {
@@ -2251,7 +1520,7 @@
             });
         }
 
-        // Debounce function
+        // Debounce function for search
         function debounce(func, wait) {
             let timeout;
             return function executedFunction(...args) {
@@ -2269,17 +1538,16 @@
             try {
                 showNotification('Loading dashboard data...', 'info');
                 
+                // Update timestamp
                 updateTimestamp();
                 
+                // Load all data in parallel
                 await Promise.all([
                     loadStats(),
                     loadStudents(),
                     loadExams(),
                     loadAnalytics()
                 ]);
-                
-                // Load day categories after exams are loaded
-                loadDayCategories();
                 
                 showNotification('Dashboard updated successfully!', 'success');
                 
@@ -2307,6 +1575,7 @@
             try {
                 console.log('📊 Loading statistics...');
                 
+                // Get students data
                 const studentsUrl = `${SUPABASE_CONFIG.url}/rest/v1/students?select=id,registered_at&order=id`;
                 const studentsRes = await fetch(studentsUrl, {
                     headers: {
@@ -2316,6 +1585,7 @@
                     }
                 });
 
+                // Get exam results data
                 const examsUrl = `${SUPABASE_CONFIG.url}/rest/v1/exam_results?select=id,score,passed,completed_at&order=completed_at.desc`;
                 const examsRes = await fetch(examsUrl, {
                     headers: {
@@ -2329,12 +1599,15 @@
                     throw new Error('Failed to fetch data');
                 }
 
+                // Parse students
                 const studentsText = await studentsRes.text();
                 const students = studentsText ? JSON.parse(studentsText) : [];
                 
+                // Parse exams
                 const examsText = await examsRes.text();
                 const exams = examsText ? JSON.parse(examsText) : [];
 
+                // Calculate statistics
                 const totalStudents = await getTotalCount('students');
                 const totalExams = await getTotalCount('exam_results');
                 
@@ -2350,6 +1623,7 @@
                     const passedExams = exams.filter(exam => exam.passed === true).length;
                     passRate = Math.round((passedExams / exams.length) * 100);
                     
+                    // Count today's exams
                     const today = new Date().toISOString().split('T')[0];
                     todayExams = exams.filter(exam => 
                         exam.completed_at && exam.completed_at.startsWith(today)
@@ -2363,6 +1637,7 @@
                     ).length;
                 }
 
+                // Update stats grid
                 document.getElementById('statsGrid').innerHTML = `
                     <div class="stat-card" onclick="loadStudents()">
                         <div class="stat-header">
@@ -2449,7 +1724,7 @@
             }
         }
 
-        // Get total count
+        // Get total count from a table
         async function getTotalCount(tableName) {
             try {
                 const url = `${SUPABASE_CONFIG.url}/rest/v1/${tableName}?select=id`;
@@ -2478,8 +1753,7 @@
             try {
                 console.log('👥 Loading students...');
                 
-                // Load all students without limit to show accurate total
-                const url = `${SUPABASE_CONFIG.url}/rest/v1/students?select=id,full_name,number,registration_number,language,registered_at&order=registered_at.desc`;
+                const url = `${SUPABASE_CONFIG.url}/rest/v1/students?select=id,full_name,number,registration_number,language,registered_at&order=registered_at.desc&limit=50`;
                 
                 const response = await fetch(url, {
                     headers: {
@@ -2495,6 +1769,7 @@
                 const data = await response.json();
                 allStudents = data || [];
 
+                // Update students count
                 document.getElementById('studentsCount').textContent = allStudents.length;
                 document.getElementById('studentsCount').className = `badge ${allStudents.length > 0 ? 'badge-success' : 'badge-warning'}`;
 
@@ -2512,8 +1787,7 @@
                     return;
                 }
 
-                filteredStudents = [...allStudents];
-                renderStudentsPaginated();
+                renderStudentsTable(allStudents);
                 console.log(`✅ Loaded ${allStudents.length} students`);
 
             } catch (error) {
@@ -2537,8 +1811,7 @@
             try {
                 console.log('📝 Loading exam results...');
                 
-                // Load all exams without limit
-                const url = `${SUPABASE_CONFIG.url}/rest/v1/exam_results?select=id,student_name,exam_title,course,exam_type,score,total_questions,correct_answers,time_taken_minutes,passed,completed_at,language&order=completed_at.desc`;
+                const url = `${SUPABASE_CONFIG.url}/rest/v1/exam_results?select=student_name,exam_title,course,exam_type,score,total_questions,correct_answers,time_taken_minutes,passed,completed_at,language&order=completed_at.desc&limit=50`;
                 
                 const response = await fetch(url, {
                     headers: {
@@ -2554,6 +1827,7 @@
                 const data = await response.json();
                 allExamResults = data || [];
 
+                // Update exams count
                 document.getElementById('examsCount').textContent = allExamResults.length;
                 document.getElementById('examsCount').className = `badge ${allExamResults.length > 0 ? 'badge-success' : 'badge-warning'}`;
 
@@ -2571,8 +1845,7 @@
                     return;
                 }
 
-                filteredExams = [...allExamResults];
-                renderExamsPaginated();
+                renderExamsTable(allExamResults);
                 console.log(`✅ Loaded ${allExamResults.length} exam results`);
 
             } catch (error) {
@@ -2623,6 +1896,7 @@
                     return;
                 }
 
+                // Group by student for top performers
                 const studentPerformance = {};
                 results.forEach(result => {
                     const studentName = result.student_name;
@@ -2645,6 +1919,7 @@
                     if (result.course) studentPerformance[studentName].courses.add(result.course);
                 });
 
+                // Calculate top performers
                 const topPerformers = Object.entries(studentPerformance)
                     .map(([name, data]) => ({
                         name,
@@ -2658,7 +1933,10 @@
                     .sort((a, b) => b.averageScore - a.averageScore)
                     .slice(0, 10);
 
+                // Render analytics table
                 renderAnalyticsTable(topPerformers);
+                
+                // Update performance chart
                 updatePerformanceChart(topPerformers);
                 
                 console.log(`✅ Loaded analytics for ${topPerformers.length} top performers`);
@@ -2674,138 +1952,6 @@
                     </tr>
                 `;
             }
-        }
-
-        // Pagination Functions
-        function renderStudentsPaginated() {
-            const start = (studentsPage - 1) * studentsPerPage;
-            const end = start + studentsPerPage;
-            const paginatedStudents = filteredStudents.slice(start, end);
-            
-            renderStudentsTable(paginatedStudents);
-            renderStudentsPagination();
-        }
-
-        function renderExamsPaginated() {
-            const start = (examsPage - 1) * examsPerPage;
-            const end = start + examsPerPage;
-            const paginatedExams = filteredExams.slice(start, end);
-            
-            renderExamsTable(paginatedExams);
-            renderExamsPagination();
-        }
-
-        function renderStudentsPagination() {
-            const totalPages = Math.ceil(filteredStudents.length / studentsPerPage);
-            const paginationEl = document.getElementById('studentsPagination');
-            const infoEl = document.getElementById('studentsPaginationInfo');
-            
-            let paginationHtml = '';
-            
-            // Previous button
-            paginationHtml += `<button class="pagination-btn" onclick="changeStudentsPage(${studentsPage - 1})" ${studentsPage === 1 ? 'disabled' : ''}><i class="fas fa-chevron-left"></i></button>`;
-            
-            // Page numbers
-            const maxVisiblePages = 5;
-            let startPage = Math.max(1, studentsPage - Math.floor(maxVisiblePages / 2));
-            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-            
-            if (endPage - startPage + 1 < maxVisiblePages) {
-                startPage = Math.max(1, endPage - maxVisiblePages + 1);
-            }
-            
-            if (startPage > 1) {
-                paginationHtml += `<button class="pagination-btn" onclick="changeStudentsPage(1)">1</button>`;
-                if (startPage > 2) {
-                    paginationHtml += `<span class="pagination-btn" style="background: none; border: none;">...</span>`;
-                }
-            }
-            
-            for (let i = startPage; i <= endPage; i++) {
-                paginationHtml += `<button class="pagination-btn ${i === studentsPage ? 'active' : ''}" onclick="changeStudentsPage(${i})">${i}</button>`;
-            }
-            
-            if (endPage < totalPages) {
-                if (endPage < totalPages - 1) {
-                    paginationHtml += `<span class="pagination-btn" style="background: none; border: none;">...</span>`;
-                }
-                paginationHtml += `<button class="pagination-btn" onclick="changeStudentsPage(${totalPages})">${totalPages}</button>`;
-            }
-            
-            // Next button
-            paginationHtml += `<button class="pagination-btn" onclick="changeStudentsPage(${studentsPage + 1})" ${studentsPage === totalPages ? 'disabled' : ''}><i class="fas fa-chevron-right"></i></button>`;
-            
-            paginationEl.innerHTML = paginationHtml;
-            
-            const start = (studentsPage - 1) * studentsPerPage + 1;
-            const end = Math.min(studentsPage * studentsPerPage, filteredStudents.length);
-            infoEl.innerHTML = `Showing ${start} to ${end} of ${filteredStudents.length} entries`;
-        }
-
-        function renderExamsPagination() {
-            const totalPages = Math.ceil(filteredExams.length / examsPerPage);
-            const paginationEl = document.getElementById('examsPagination');
-            const infoEl = document.getElementById('examsPaginationInfo');
-            
-            let paginationHtml = '';
-            
-            paginationHtml += `<button class="pagination-btn" onclick="changeExamsPage(${examsPage - 1})" ${examsPage === 1 ? 'disabled' : ''}><i class="fas fa-chevron-left"></i></button>`;
-            
-            const maxVisiblePages = 5;
-            let startPage = Math.max(1, examsPage - Math.floor(maxVisiblePages / 2));
-            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-            
-            if (endPage - startPage + 1 < maxVisiblePages) {
-                startPage = Math.max(1, endPage - maxVisiblePages + 1);
-            }
-            
-            if (startPage > 1) {
-                paginationHtml += `<button class="pagination-btn" onclick="changeExamsPage(1)">1</button>`;
-                if (startPage > 2) {
-                    paginationHtml += `<span class="pagination-btn" style="background: none; border: none;">...</span>`;
-                }
-            }
-            
-            for (let i = startPage; i <= endPage; i++) {
-                paginationHtml += `<button class="pagination-btn ${i === examsPage ? 'active' : ''}" onclick="changeExamsPage(${i})">${i}</button>`;
-            }
-            
-            if (endPage < totalPages) {
-                if (endPage < totalPages - 1) {
-                    paginationHtml += `<span class="pagination-btn" style="background: none; border: none;">...</span>`;
-                }
-                paginationHtml += `<button class="pagination-btn" onclick="changeExamsPage(${totalPages})">${totalPages}</button>`;
-            }
-            
-            paginationHtml += `<button class="pagination-btn" onclick="changeExamsPage(${examsPage + 1})" ${examsPage === totalPages ? 'disabled' : ''}><i class="fas fa-chevron-right"></i></button>`;
-            
-            paginationEl.innerHTML = paginationHtml;
-            
-            const start = (examsPage - 1) * examsPerPage + 1;
-            const end = Math.min(examsPage * examsPerPage, filteredExams.length);
-            infoEl.innerHTML = `Showing ${start} to ${end} of ${filteredExams.length} entries`;
-        }
-
-        function changeStudentsPage(page) {
-            studentsPage = page;
-            renderStudentsPaginated();
-        }
-
-        function changeExamsPage(page) {
-            examsPage = page;
-            renderExamsPaginated();
-        }
-
-        function changeStudentsPerPage() {
-            studentsPerPage = parseInt(document.getElementById('studentsPerPage').value);
-            studentsPage = 1;
-            renderStudentsPaginated();
-        }
-
-        function changeExamsPerPage() {
-            examsPerPage = parseInt(document.getElementById('examsPerPage').value);
-            examsPage = 1;
-            renderExamsPaginated();
         }
 
         // Render students table
@@ -2832,6 +1978,7 @@
                 const registered = student.registered_at ? 
                     formatDate(student.registered_at) : 'N/A';
                 
+                // Get initials for avatar
                 const initials = fullName.split(' ')
                     .filter(n => n.length > 0)
                     .map(n => n[0])
@@ -2839,10 +1986,11 @@
                     .toUpperCase()
                     .substring(0, 2);
 
+                // Determine status
                 const isRegistered = regNumber && regNumber !== 'N/A';
 
                 html += `
-                    <tr onclick="viewStudentExams('${escapeHtml(fullName)}')">
+                    <tr>
                         <td>
                             <div class="student-cell">
                                 <div class="student-avatar">${initials}</div>
@@ -2870,7 +2018,7 @@
                         <td>
                             <div class="timestamp">${registered}</div>
                         </td>
-                        <td onclick="event.stopPropagation()">
+                        <td>
                             <div style="display: flex; gap: 6px;">
                                 <button class="action-btn btn-edit" onclick="editStudent(${student.id})">
                                     <i class="fas fa-edit"></i>
@@ -2914,6 +2062,7 @@
                 const completed = exam.completed_at ? 
                     formatTimeAgo(exam.completed_at) : 'N/A';
 
+                // Get initials for avatar
                 const initials = studentName.split(' ')
                     .filter(n => n.length > 0)
                     .map(n => n[0])
@@ -2921,10 +2070,11 @@
                     .toUpperCase()
                     .substring(0, 2);
 
+                // Calculate accuracy
                 const accuracy = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
 
                 html += `
-                    <tr onclick="viewExamDetails('${escapeHtml(studentName)}', '${exam.completed_at}')">
+                    <tr>
                         <td>
                             <div class="student-cell">
                                 <div class="student-avatar">${initials}</div>
@@ -2977,6 +2127,7 @@
             performers.forEach((student, index) => {
                 const rank = index + 1;
                 
+                // Get initials for avatar
                 const initials = student.name.split(' ')
                     .filter(n => n.length > 0)
                     .map(n => n[0])
@@ -2984,6 +2135,7 @@
                     .toUpperCase()
                     .substring(0, 2);
 
+                // Rank badge
                 let rankBadge = '';
                 if (rank === 1) {
                     rankBadge = '🥇';
@@ -2996,7 +2148,7 @@
                 }
 
                 html += `
-                    <tr onclick="viewStudentExams('${escapeHtml(student.name)}')">
+                    <tr>
                         <td>
                             <span style="font-weight: bold; color: ${rank <= 3 ? 'var(--warning)' : 'var(--text-secondary)'}">
                                 ${rankBadge}
@@ -3117,699 +2269,6 @@
             });
         }
 
-        // Load Day Categories
-        function loadDayCategories() {
-            const container = document.getElementById('dayCategoriesContainer');
-            
-            if (!allExamResults || allExamResults.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-calendar"></i>
-                        <p>No exam results available</p>
-                    </div>
-                `;
-                document.getElementById('daysCount').textContent = '0';
-                return;
-            }
-
-            // Group exams by date
-            const examsByDate = {};
-            allExamResults.forEach(exam => {
-                if (!exam.completed_at) return;
-                
-                const date = new Date(exam.completed_at).toLocaleDateString();
-                if (!examsByDate[date]) {
-                    examsByDate[date] = [];
-                }
-                examsByDate[date].push(exam);
-            });
-
-            // Sort dates descending
-            const sortedDates = Object.keys(examsByDate).sort((a, b) => new Date(b) - new Date(a));
-            
-            document.getElementById('daysCount').textContent = sortedDates.length;
-
-            let html = '';
-
-            sortedDates.forEach(date => {
-                const exams = examsByDate[date];
-                const totalExams = exams.length;
-                const passedExams = exams.filter(e => e.passed).length;
-                const passRate = Math.round((passedExams / totalExams) * 100);
-                
-                html += `
-                    <div class="day-category">
-                        <div class="day-header">
-                            <div>
-                                <i class="fas fa-calendar-day"></i> ${date}
-                                <span class="badge badge-info" style="margin-left: 10px;">${totalExams} exams</span>
-                                <span class="badge badge-success">${passRate}% pass rate</span>
-                            </div>
-                            <div class="day-actions">
-                                <button class="action-btn btn-download" onclick="downloadDayPDF('${date}')" title="Download PDF">
-                                    <i class="fas fa-file-pdf"></i>
-                                </button>
-                                <button class="action-btn btn-delete" onclick="deleteDayResults('${date}')" title="Delete">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="day-content">
-                            <table style="width: 100%; font-size: 12px;">
-                                <thead>
-                                    <tr>
-                                        <th>Student</th>
-                                        <th>Exam</th>
-                                        <th>Score</th>
-                                        <th>Status</th>
-                                        <th>Time</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                `;
-
-                exams.slice(0, 5).forEach(exam => {
-                    html += `
-                        <tr>
-                            <td>${escapeHtml(exam.student_name || 'Unknown')}</td>
-                            <td>${escapeHtml(truncateText(exam.exam_title || 'Unknown', 15))}</td>
-                            <td style="color: ${exam.score >= 80 ? 'var(--success)' : exam.score >= 60 ? 'var(--warning)' : 'var(--danger)'}">${exam.score}%</td>
-                            <td><span class="badge ${exam.passed ? 'badge-success' : 'badge-danger'}" style="font-size: 10px;">${exam.passed ? 'Pass' : 'Fail'}</span></td>
-                            <td>${exam.time_taken_minutes || 0}m</td>
-                        </tr>
-                    `;
-                });
-
-                if (exams.length > 5) {
-                    html += `
-                        <tr>
-                            <td colspan="5" style="text-align: center; color: var(--text-secondary);">
-                                <i class="fas fa-ellipsis-h"></i> and ${exams.length - 5} more...
-                            </td>
-                        </tr>
-                    `;
-                }
-
-                html += `
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                `;
-            });
-
-            container.innerHTML = html;
-        }
-
-        // Filter by day category
-        function filterByDayCategory() {
-            const filter = document.getElementById('dayFilter').value;
-            const container = document.getElementById('dayCategoriesContainer');
-            
-            if (!allExamResults || allExamResults.length === 0) return;
-
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            
-            const yesterday = new Date(today);
-            yesterday.setDate(yesterday.getDate() - 1);
-            
-            const weekAgo = new Date(today);
-            weekAgo.setDate(weekAgo.getDate() - 7);
-            
-            const twoWeeksAgo = new Date(today);
-            twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
-            
-            const monthAgo = new Date(today);
-            monthAgo.setMonth(monthAgo.getMonth() - 1);
-
-            const filteredExams = allExamResults.filter(exam => {
-                if (!exam.completed_at) return false;
-                
-                const examDate = new Date(exam.completed_at);
-                examDate.setHours(0, 0, 0, 0);
-                
-                switch(filter) {
-                    case 'today':
-                        return examDate.getTime() === today.getTime();
-                    case 'yesterday':
-                        return examDate.getTime() === yesterday.getTime();
-                    case 'thisweek':
-                        return examDate >= weekAgo && examDate <= today;
-                    case 'lastweek':
-                        return examDate >= twoWeeksAgo && examDate < weekAgo;
-                    case 'thismonth':
-                        return examDate >= monthAgo && examDate <= today;
-                    default:
-                        return true;
-                }
-            });
-
-            // Group filtered exams by date
-            const examsByDate = {};
-            filteredExams.forEach(exam => {
-                const date = new Date(exam.completed_at).toLocaleDateString();
-                if (!examsByDate[date]) {
-                    examsByDate[date] = [];
-                }
-                examsByDate[date].push(exam);
-            });
-
-            const sortedDates = Object.keys(examsByDate).sort((a, b) => new Date(b) - new Date(a));
-            
-            document.getElementById('daysCount').textContent = sortedDates.length;
-
-            let html = '';
-
-            sortedDates.forEach(date => {
-                const exams = examsByDate[date];
-                const totalExams = exams.length;
-                const passedExams = exams.filter(e => e.passed).length;
-                const passRate = Math.round((passedExams / totalExams) * 100);
-                
-                html += `
-                    <div class="day-category">
-                        <div class="day-header">
-                            <div>
-                                <i class="fas fa-calendar-day"></i> ${date}
-                                <span class="badge badge-info" style="margin-left: 10px;">${totalExams} exams</span>
-                                <span class="badge badge-success">${passRate}% pass rate</span>
-                            </div>
-                            <div class="day-actions">
-                                <button class="action-btn btn-download" onclick="downloadDayPDF('${date}')" title="Download PDF">
-                                    <i class="fas fa-file-pdf"></i>
-                                </button>
-                                <button class="action-btn btn-delete" onclick="deleteDayResults('${date}')" title="Delete">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="day-content">
-                            <table style="width: 100%; font-size: 12px;">
-                                <thead>
-                                    <tr>
-                                        <th>Student</th>
-                                        <th>Exam</th>
-                                        <th>Score</th>
-                                        <th>Status</th>
-                                        <th>Time</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                `;
-
-                exams.slice(0, 5).forEach(exam => {
-                    html += `
-                        <tr>
-                            <td>${escapeHtml(exam.student_name || 'Unknown')}</td>
-                            <td>${escapeHtml(truncateText(exam.exam_title || 'Unknown', 15))}</td>
-                            <td style="color: ${exam.score >= 80 ? 'var(--success)' : exam.score >= 60 ? 'var(--warning)' : 'var(--danger)'}">${exam.score}%</td>
-                            <td><span class="badge ${exam.passed ? 'badge-success' : 'badge-danger'}" style="font-size: 10px;">${exam.passed ? 'Pass' : 'Fail'}</span></td>
-                            <td>${exam.time_taken_minutes || 0}m</td>
-                        </tr>
-                    `;
-                });
-
-                if (exams.length > 5) {
-                    html += `
-                        <tr>
-                            <td colspan="5" style="text-align: center; color: var(--text-secondary);">
-                                <i class="fas fa-ellipsis-h"></i> and ${exams.length - 5} more...
-                            </td>
-                        </tr>
-                    `;
-                }
-
-                html += `
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                `;
-            });
-
-            if (sortedDates.length === 0) {
-                html = `
-                    <div class="empty-state">
-                        <i class="fas fa-calendar-times"></i>
-                        <p>No results found for selected filter</p>
-                    </div>
-                `;
-            }
-
-            container.innerHTML = html;
-        }
-
-        // Download day as PDF
-        function downloadDayPDF(date) {
-            const exams = allExamResults.filter(e => {
-                if (!e.completed_at) return false;
-                return new Date(e.completed_at).toLocaleDateString() === date;
-            });
-
-            if (exams.length === 0) {
-                showNotification('No exams found for this day', 'warning');
-                return;
-            }
-
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            
-            // Add title
-            doc.setFontSize(18);
-            doc.text(14, 22, `Charles Academy - Exam Results`);
-            doc.setFontSize(14);
-            doc.text(14, 32, `Date: ${date}`);
-            doc.setFontSize(12);
-            doc.text(14, 42, `Total Exams: ${exams.length}`);
-            
-            // Prepare table data
-            const tableColumn = ["Student", "Exam", "Score", "Status", "Time (min)"];
-            const tableRows = [];
-            
-            exams.forEach(exam => {
-                const examData = [
-                    exam.student_name || 'Unknown',
-                    exam.exam_title || 'Unknown',
-                    `${exam.score || 0}%`,
-                    exam.passed ? 'Pass' : 'Fail',
-                    exam.time_taken_minutes || 0
-                ];
-                tableRows.push(examData);
-            });
-
-            // Generate table
-            doc.autoTable({
-                head: [tableColumn],
-                body: tableRows,
-                startY: 50,
-                theme: 'grid',
-                styles: { fontSize: 8, cellPadding: 2 },
-                headStyles: { fillColor: [0, 136, 204] }
-            });
-
-            // Save PDF
-            doc.save(`exam_results_${date}.pdf`);
-            showNotification(`Downloaded PDF for ${date}`, 'success');
-        }
-
-        // Delete day results
-        function deleteDayResults(date) {
-            const exams = allExamResults.filter(e => {
-                if (!e.completed_at) return false;
-                return new Date(e.completed_at).toLocaleDateString() === date;
-            });
-
-            if (exams.length === 0) {
-                showNotification('No exams found for this day', 'warning');
-                return;
-            }
-
-            currentDeleteData = {
-                type: 'day',
-                ids: exams.map(e => e.id),
-                date: date
-            };
-            
-            document.getElementById('deleteMessage').textContent = 
-                `Delete all ${exams.length} exam results for ${date}?`;
-            document.getElementById('deleteDetails').textContent = 
-                'This action cannot be undone';
-            
-            document.getElementById('deleteConfirmModal').classList.add('active');
-        }
-
-        // Filter by date
-        function filterByDate() {
-            const startDate = document.getElementById('startDate').value;
-            const endDate = document.getElementById('endDate').value;
-            const filterType = document.getElementById('dateFilterType').value;
-
-            if (!startDate || !endDate) {
-                showNotification('Please select start and end dates', 'warning');
-                return;
-            }
-
-            const start = new Date(startDate);
-            const end = new Date(endDate);
-            end.setHours(23, 59, 59, 999);
-
-            if (start > end) {
-                showNotification('Start date cannot be after end date', 'error');
-                return;
-            }
-
-            filteredResults = allExamResults.filter(exam => {
-                if (!exam.completed_at) return false;
-                
-                const examDate = new Date(exam.completed_at);
-                return examDate >= start && examDate <= end;
-            });
-
-            if (filteredResults.length > 0) {
-                showNotification(`Found ${filteredResults.length} results`, 'success');
-            } else {
-                showNotification('No results found in this date range', 'info');
-            }
-        }
-
-        // Clear date filter
-        function clearDateFilter() {
-            setDefaultDates();
-            filteredResults = [];
-            showNotification('Date filter cleared', 'info');
-        }
-
-        // Download filtered data as PDF
-        function downloadFilteredDataPDF() {
-            if (filteredResults.length === 0) {
-                showNotification('No results to download. Please filter by date first.', 'warning');
-                return;
-            }
-
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            
-            const startDate = document.getElementById('startDate').value;
-            const endDate = document.getElementById('endDate').value;
-            
-            // Add title
-            doc.setFontSize(18);
-            doc.text(14, 22, `Charles Academy - Exam Results`);
-            doc.setFontSize(14);
-            doc.text(14, 32, `Date Range: ${startDate} to ${endDate}`);
-            doc.setFontSize(12);
-            doc.text(14, 42, `Total Exams: ${filteredResults.length}`);
-            
-            // Prepare table data
-            const tableColumn = ["Student", "Exam", "Score", "Status", "Date", "Time"];
-            const tableRows = [];
-            
-            filteredResults.forEach(exam => {
-                const examData = [
-                    exam.student_name || 'Unknown',
-                    exam.exam_title || 'Unknown',
-                    `${exam.score || 0}%`,
-                    exam.passed ? 'Pass' : 'Fail',
-                    exam.completed_at ? new Date(exam.completed_at).toLocaleDateString() : 'N/A',
-                    `${exam.time_taken_minutes || 0} min`
-                ];
-                tableRows.push(examData);
-            });
-
-            // Generate table
-            doc.autoTable({
-                head: [tableColumn],
-                body: tableRows,
-                startY: 50,
-                theme: 'grid',
-                styles: { fontSize: 8, cellPadding: 2 },
-                headStyles: { fillColor: [0, 136, 204] }
-            });
-
-            // Save PDF
-            doc.save(`exam_results_${startDate}_to_${endDate}.pdf`);
-            showNotification(`Downloaded ${filteredResults.length} results as PDF`, 'success');
-        }
-
-        // Delete filtered data
-        function deleteFilteredData() {
-            if (filteredResults.length === 0) {
-                showNotification('No results to delete. Please filter by date first.', 'warning');
-                return;
-            }
-
-            currentDeleteData = {
-                type: 'filtered',
-                ids: filteredResults.map(r => r.id)
-            };
-            
-            const startDate = document.getElementById('startDate').value;
-            const endDate = document.getElementById('endDate').value;
-            
-            document.getElementById('deleteMessage').textContent = 
-                `Are you sure you want to delete ${filteredResults.length} exam results?`;
-            document.getElementById('deleteDetails').textContent = 
-                `Date range: ${startDate} to ${endDate}`;
-            
-            document.getElementById('deleteConfirmModal').classList.add('active');
-        }
-
-        // Delete single result
-        function deleteSingleResult(id, studentName) {
-            currentDeleteData = {
-                type: 'single',
-                ids: [id]
-            };
-            
-            document.getElementById('deleteMessage').textContent = 
-                `Delete exam result for ${studentName}?`;
-            document.getElementById('deleteDetails').textContent = 
-                'This action cannot be undone';
-            
-            document.getElementById('deleteConfirmModal').classList.add('active');
-        }
-
-        // Confirm delete
-        async function confirmDelete() {
-            if (!currentDeleteData) return;
-
-            try {
-                showNotification('Deleting...', 'info');
-
-                for (const id of currentDeleteData.ids) {
-                    const response = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/exam_results?id=eq.${id}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'apikey': SUPABASE_CONFIG.anonKey,
-                            'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`
-                        }
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`Failed to delete ID ${id}`);
-                    }
-                }
-
-                showNotification(`Successfully deleted ${currentDeleteData.ids.length} result(s)`, 'success');
-                closeModal('deleteConfirmModal');
-                
-                await loadAllData();
-
-            } catch (error) {
-                console.error('Error deleting:', error);
-                showNotification('Error deleting results: ' + error.message, 'error');
-            }
-        }
-
-        // Export filtered as CSV
-        function exportFilteredCSV() {
-            if (filteredResults.length === 0) {
-                showNotification('No results to export. Please filter by date first.', 'warning');
-                return;
-            }
-
-            const headers = ['Student', 'Exam', 'Score', 'Passed', 'Date', 'Time Taken'];
-            const rows = filteredResults.map(exam => [
-                exam.student_name || 'Unknown',
-                exam.exam_title || 'Unknown',
-                exam.score || 0,
-                exam.passed ? 'Yes' : 'No',
-                exam.completed_at ? new Date(exam.completed_at).toLocaleDateString() : 'N/A',
-                exam.time_taken_minutes || 0
-            ]);
-
-            const csvContent = [
-                headers.join(','),
-                ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
-            ].join('\n');
-
-            const blob = new Blob([csvContent], { type: 'text/csv' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            
-            const startDate = document.getElementById('startDate').value;
-            const endDate = document.getElementById('endDate').value;
-            a.download = `exam_results_${startDate}_to_${endDate}.csv`;
-            
-            a.click();
-            window.URL.revokeObjectURL(url);
-
-            showNotification(`Exported ${filteredResults.length} results as CSV`, 'success');
-        }
-
-        // Export filtered as JSON
-        function exportFilteredJSON() {
-            if (filteredResults.length === 0) {
-                showNotification('No results to export. Please filter by date first.', 'warning');
-                return;
-            }
-
-            const dataStr = JSON.stringify(filteredResults, null, 2);
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-            
-            const startDate = document.getElementById('startDate').value;
-            const endDate = document.getElementById('endDate').value;
-            const fileName = `exam_results_${startDate}_to_${endDate}.json`;
-            
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', fileName);
-            linkElement.click();
-            
-            showNotification(`Exported ${filteredResults.length} results as JSON`, 'success');
-        }
-
-        // Export analytics
-        function exportAnalytics() {
-            showNotification('Analytics export coming soon!', 'info');
-        }
-
-        // Export all data
-        function exportData() {
-            const allData = {
-                students: allStudents,
-                exams: allExamResults,
-                exportedAt: new Date().toISOString(),
-                totalStudents: allStudents.length,
-                totalExams: allExamResults.length
-            };
-
-            const dataStr = JSON.stringify(allData, null, 2);
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-            
-            const fileName = `charles_academy_full_export_${new Date().toISOString().split('T')[0]}.json`;
-            
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', fileName);
-            linkElement.click();
-            
-            showNotification('Full export completed', 'success');
-        }
-
-        // View student exams
-        function viewStudentExams(studentName) {
-            const studentExams = allExamResults.filter(e => e.student_name === studentName);
-            
-            if (studentExams.length === 0) {
-                showNotification('No exams found for this student', 'info');
-                return;
-            }
-
-            currentStudentDetails = {
-                name: studentName,
-                exams: studentExams
-            };
-
-            let html = `
-                <div style="margin-bottom: var(--spacing-lg);">
-                    <h4 style="margin-bottom: var(--spacing-sm);">${escapeHtml(studentName)}</h4>
-                    <p class="timestamp">Total Exams: ${studentExams.length}</p>
-                </div>
-                <div class="detail-grid">
-            `;
-
-            const avgScore = (studentExams.reduce((sum, e) => sum + (e.score || 0), 0) / studentExams.length).toFixed(1);
-            const passed = studentExams.filter(e => e.passed).length;
-            const passRate = Math.round((passed / studentExams.length) * 100);
-
-            html += `
-                <div class="detail-item">
-                    <div class="detail-label">Average Score</div>
-                    <div class="detail-value" style="color: ${avgScore >= 70 ? 'var(--success)' : 'var(--warning)'}">${avgScore}%</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">Pass Rate</div>
-                    <div class="detail-value">${passRate}%</div>
-                </div>
-            </div>
-
-            <h5 style="margin: var(--spacing-md) 0 var(--spacing-sm);">Exam History</h5>
-            <div class="answers-container">
-            `;
-
-            studentExams.sort((a, b) => new Date(b.completed_at) - new Date(a.completed_at));
-
-            studentExams.forEach(exam => {
-                const date = exam.completed_at ? new Date(exam.completed_at).toLocaleDateString() : 'N/A';
-                html += `
-                    <div class="answer-item">
-                        <div style="display: flex; justify-content: space-between;">
-                            <strong>${escapeHtml(exam.exam_title || 'Unknown')}</strong>
-                            <span class="badge ${exam.passed ? 'badge-success' : 'badge-danger'}">
-                                ${exam.score || 0}%
-                            </span>
-                        </div>
-                        <div style="display: flex; gap: var(--spacing-md); margin-top: 4px; font-size: 11px;">
-                            <span>${date}</span>
-                            <span>${exam.time_taken_minutes || 0}m</span>
-                            <span>${exam.course || 'General'}</span>
-                        </div>
-                    </div>
-                `;
-            });
-
-            html += `</div>`;
-
-            document.getElementById('studentDetailsContent').innerHTML = html;
-            document.getElementById('studentDetailsModal').classList.add('active');
-        }
-
-        // View exam details
-        function viewExamDetails(studentName, completedAt) {
-            viewStudentExams(studentName);
-        }
-
-        // Download student details as PDF
-        function downloadStudentDetailsPDF() {
-            if (!currentStudentDetails) return;
-
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            
-            doc.setFontSize(18);
-            doc.text(14, 22, `Charles Academy - Student Report`);
-            doc.setFontSize(16);
-            doc.text(14, 32, `${currentStudentDetails.name}`);
-            
-            const avgScore = (currentStudentDetails.exams.reduce((sum, e) => sum + (e.score || 0), 0) / currentStudentDetails.exams.length).toFixed(1);
-            const passed = currentStudentDetails.exams.filter(e => e.passed).length;
-            const passRate = Math.round((passed / currentStudentDetails.exams.length) * 100);
-            
-            doc.setFontSize(12);
-            doc.text(14, 42, `Total Exams: ${currentStudentDetails.exams.length}`);
-            doc.text(14, 52, `Average Score: ${avgScore}%`);
-            doc.text(14, 62, `Pass Rate: ${passRate}%`);
-            
-            const tableColumn = ["Exam", "Score", "Status", "Date", "Time"];
-            const tableRows = [];
-            
-            currentStudentDetails.exams.forEach(exam => {
-                const examData = [
-                    exam.exam_title || 'Unknown',
-                    `${exam.score || 0}%`,
-                    exam.passed ? 'Pass' : 'Fail',
-                    exam.completed_at ? new Date(exam.completed_at).toLocaleDateString() : 'N/A',
-                    `${exam.time_taken_minutes || 0} min`
-                ];
-                tableRows.push(examData);
-            });
-
-            doc.autoTable({
-                head: [tableColumn],
-                body: tableRows,
-                startY: 70,
-                theme: 'grid',
-                styles: { fontSize: 8, cellPadding: 2 },
-                headStyles: { fillColor: [0, 136, 204] }
-            });
-
-            doc.save(`${currentStudentDetails.name}_exam_history.pdf`);
-            showNotification(`Downloaded PDF for ${currentStudentDetails.name}`, 'success');
-        }
-
         // CRUD Operations for Students
         function editStudent(studentId) {
             const student = allStudents.find(s => s.id === studentId);
@@ -3899,6 +2358,7 @@
 
             let filtered = [...allStudents];
 
+            // Apply search filter
             if (searchTerm) {
                 filtered = filtered.filter(student => 
                     (student.full_name && student.full_name.toLowerCase().includes(searchTerm)) ||
@@ -3907,6 +2367,7 @@
                 );
             }
 
+            // Apply type filter
             if (filterType === 'today') {
                 const today = new Date().toISOString().split('T')[0];
                 filtered = filtered.filter(student => 
@@ -3928,9 +2389,7 @@
                 );
             }
 
-            filteredStudents = filtered;
-            studentsPage = 1;
-            renderStudentsPaginated();
+            renderStudentsTable(filtered);
         }
 
         // Filter exams
@@ -3940,6 +2399,7 @@
 
             let filtered = [...allExamResults];
 
+            // Apply search filter
             if (searchTerm) {
                 filtered = filtered.filter(exam => 
                     (exam.student_name && exam.student_name.toLowerCase().includes(searchTerm)) ||
@@ -3948,6 +2408,7 @@
                 );
             }
 
+            // Apply type filter
             if (filterType === 'passed') {
                 filtered = filtered.filter(exam => exam.passed === true);
             } else if (filterType === 'failed') {
@@ -3961,9 +2422,7 @@
                 );
             }
 
-            filteredExams = filtered;
-            examsPage = 1;
-            renderExamsPaginated();
+            renderExamsTable(filtered);
         }
 
         // Filter exams by score
@@ -3996,8 +2455,7 @@
             const date = new Date(dateString);
             return date.toLocaleDateString('en-US', {
                 month: 'short',
-                day: 'numeric',
-                year: 'numeric'
+                day: 'numeric'
             });
         }
 
@@ -4020,6 +2478,7 @@
         }
 
         function showNotification(message, type = 'info') {
+            // Remove existing notification
             const existing = document.querySelector('.notification');
             if (existing) existing.remove();
 
@@ -4047,11 +2506,20 @@
 
             document.body.appendChild(notification);
 
+            // Auto-remove after 4 seconds
             setTimeout(() => {
                 notification.style.animation = 'slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) reverse';
                 setTimeout(() => notification.remove(), 400);
             }, 4000);
         }
+
+        // Export data
+        function exportData() {
+            showNotification('Export feature coming soon!', 'info');
+        }
+
+        // Initialize everything
+        console.log('Dashboard initialized successfully!');
     </script>
 </body>
 </html>
